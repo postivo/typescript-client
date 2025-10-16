@@ -15,7 +15,8 @@ You can also refer to the [REST API v1 documentation](https://api.postivo.pl/res
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
 <!-- $toc-max-depth=2 -->
-* [postivo-client](#postivo-client)
+* [POSTIVO.PL REST API Client SDK for TypeScript (@postivo/postivo-client)](#postivopl-rest-api-client-sdk-for-typescript-postivopostivo-client)
+  * [Additional documentation:](#additional-documentation)
   * [SDK Installation](#sdk-installation)
   * [Requirements](#requirements)
   * [SDK Example Usage](#sdk-example-usage)

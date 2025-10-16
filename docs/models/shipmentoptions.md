@@ -1,14 +1,14 @@
-# RequestOptions
+# ShipmentOptions
 
 Additional shipment settings.
 
 ## Example Usage
 
 ```typescript
-import { RequestOptions } from "@postivo/postivo-client/models";
+import { ShipmentOptions } from "@postivo/postivo-client/models";
 import { RFCDate } from "@postivo/postivo-client/types";
 
-let value: RequestOptions = {
+let value: ShipmentOptions = {
   predefinedConfigId: 32,
   inlineConfig: {
     carrierId: 1,
@@ -21,7 +21,10 @@ let value: RequestOptions = {
   },
   senderId: 567,
   dispatchDate: new RFCDate("2025-12-24"),
-  callback: null,
+  callback: {
+    url: "https://example.com/callback",
+    userToken: "75gh28hugjy8gfv6...",
+  },
   miscInfo: {
     mpk: "dział handlowy",
     orderName: "Wysyłka zaproszeń",

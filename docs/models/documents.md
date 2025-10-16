@@ -1,4 +1,6 @@
-# Documents1
+# Documents
+
+A base document object.
 
 
 ## Supported Types

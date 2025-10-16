@@ -3,10 +3,10 @@
 
 ## Supported Types
 
-### `models.RequestOptions`
+### `models.ShipmentOptions`
 
 ```typescript
-const value: models.RequestOptions = {
+const value: models.ShipmentOptions = {
   predefinedConfigId: 32,
   inlineConfig: {
     carrierId: 1,
@@ -19,7 +19,10 @@ const value: models.RequestOptions = {
   },
   senderId: 567,
   dispatchDate: new RFCDate("2025-12-24"),
-  callback: null,
+  callback: {
+    url: "https://example.com/callback",
+    userToken: "75gh28hugjy8gfv6...",
+  },
   miscInfo: {
     mpk: "dział handlowy",
     orderName: "Wysyłka zaproszeń",

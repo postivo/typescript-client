@@ -8,71 +8,28 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import {
-  DocumentLibrary,
-  DocumentLibrary$inboundSchema,
-  DocumentLibrary$Outbound,
-  DocumentLibrary$outboundSchema,
-} from "./documentlibrary.js";
-import {
-  DocumentMock,
-  DocumentMock$inboundSchema,
-  DocumentMock$Outbound,
-  DocumentMock$outboundSchema,
-} from "./documentmock.js";
-import {
-  DocumentPdf,
-  DocumentPdf$inboundSchema,
-  DocumentPdf$Outbound,
-  DocumentPdf$outboundSchema,
-} from "./documentpdf.js";
+  Documents,
+  Documents$inboundSchema,
+  Documents$Outbound,
+  Documents$outboundSchema,
+} from "./documents.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  RecipientFromAddressBook,
-  RecipientFromAddressBook$inboundSchema,
-  RecipientFromAddressBook$Outbound,
-  RecipientFromAddressBook$outboundSchema,
-} from "./recipientfromaddressbook.js";
-import {
-  RecipientFromAddressBookByExternalId,
-  RecipientFromAddressBookByExternalId$inboundSchema,
-  RecipientFromAddressBookByExternalId$Outbound,
-  RecipientFromAddressBookByExternalId$outboundSchema,
-} from "./recipientfromaddressbookbyexternalid.js";
-import {
-  RecipientInline,
-  RecipientInline$inboundSchema,
-  RecipientInline$Outbound,
-  RecipientInline$outboundSchema,
-} from "./recipientinline.js";
-
-export type Recipients1 =
-  | RecipientInline
-  | RecipientFromAddressBook
-  | RecipientFromAddressBookByExternalId;
+  Recipients,
+  Recipients$inboundSchema,
+  Recipients$Outbound,
+  Recipients$outboundSchema,
+} from "./recipients.js";
 
 /**
  * Recipient data for a single shipment. For one recipient, provide a `RecipientInline`, `RecipientFromAddressBook`, or `RecipientFromAddressBookByExternalId` object. For multiple recipients, provide an array of these objects (1–50).
  */
-export type Recipients2 =
-  | RecipientInline
-  | RecipientFromAddressBook
-  | RecipientFromAddressBookByExternalId
-  | Array<
-    | RecipientInline
-    | RecipientFromAddressBook
-    | RecipientFromAddressBookByExternalId
-  >;
-
-export type Documents1 = DocumentPdf | DocumentLibrary | DocumentMock;
+export type ShipmentRecipients = Recipients | Array<Recipients>;
 
 /**
- * Document payload to print and enclose. For a single document, provide `DocumentPdf` or `DocumentLibrary`. For multiple documents, provide an array of `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` objects (1–20).
+ * Document payload to print and enclose into shipment. For a single document, provide `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` (for checking the price only). For multiple documents, provide an array of `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` objects (1–20).
  */
-export type Documents2 =
-  | DocumentPdf
-  | DocumentLibrary
-  | DocumentMock
-  | Array<DocumentPdf | DocumentLibrary | DocumentMock>;
+export type ShipmentDocuments = Documents | Array<Documents>;
 
 /**
  * Shipment configuration parameters. Overrides settings loaded from `predefined_config_id`.
@@ -145,7 +102,7 @@ export type MiscInfoUnion = MiscInfo;
 /**
  * Additional shipment settings.
  */
-export type RequestOptions = {
+export type ShipmentOptions = {
   /**
    * ID of the shipment configuration profile stored in the user account.
    */
@@ -167,7 +124,7 @@ export type RequestOptions = {
   rotateDocuments?: boolean | undefined;
 };
 
-export type Options = RequestOptions;
+export type Options = ShipmentOptions;
 
 /**
  * Properties of a new shipment.
@@ -176,279 +133,123 @@ export type Shipment = {
   /**
    * Recipient data for a single shipment. For one recipient, provide a `RecipientInline`, `RecipientFromAddressBook`, or `RecipientFromAddressBookByExternalId` object. For multiple recipients, provide an array of these objects (1–50).
    */
-  recipients:
-    | RecipientInline
-    | RecipientFromAddressBook
-    | RecipientFromAddressBookByExternalId
-    | Array<
-      | RecipientInline
-      | RecipientFromAddressBook
-      | RecipientFromAddressBookByExternalId
-    >;
+  recipients: Recipients | Array<Recipients>;
   /**
-   * Document payload to print and enclose. For a single document, provide `DocumentPdf` or `DocumentLibrary`. For multiple documents, provide an array of `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` objects (1–20).
+   * Document payload to print and enclose into shipment. For a single document, provide `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` (for checking the price only). For multiple documents, provide an array of `DocumentPdf`, `DocumentLibrary`, or `DocumentMock` objects (1–20).
    */
-  documents:
-    | DocumentPdf
-    | DocumentLibrary
-    | DocumentMock
-    | Array<DocumentPdf | DocumentLibrary | DocumentMock>;
-  options?: RequestOptions | null | undefined;
+  documents: Documents | Array<Documents>;
+  options?: ShipmentOptions | null | undefined;
 };
 
 /** @internal */
-export const Recipients1$inboundSchema: z.ZodType<
-  Recipients1,
+export const ShipmentRecipients$inboundSchema: z.ZodType<
+  ShipmentRecipients,
   z.ZodTypeDef,
   unknown
 > = z.union([
-  RecipientInline$inboundSchema,
-  RecipientFromAddressBook$inboundSchema,
-  RecipientFromAddressBookByExternalId$inboundSchema,
+  Recipients$inboundSchema,
+  z.array(z.lazy(() => Recipients$inboundSchema)),
 ]);
 
 /** @internal */
-export type Recipients1$Outbound =
-  | RecipientInline$Outbound
-  | RecipientFromAddressBook$Outbound
-  | RecipientFromAddressBookByExternalId$Outbound;
+export type ShipmentRecipients$Outbound =
+  | Recipients$Outbound
+  | Array<Recipients$Outbound>;
 
 /** @internal */
-export const Recipients1$outboundSchema: z.ZodType<
-  Recipients1$Outbound,
+export const ShipmentRecipients$outboundSchema: z.ZodType<
+  ShipmentRecipients$Outbound,
   z.ZodTypeDef,
-  Recipients1
+  ShipmentRecipients
 > = z.union([
-  RecipientInline$outboundSchema,
-  RecipientFromAddressBook$outboundSchema,
-  RecipientFromAddressBookByExternalId$outboundSchema,
+  Recipients$outboundSchema,
+  z.array(z.lazy(() => Recipients$outboundSchema)),
 ]);
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace Recipients1$ {
-  /** @deprecated use `Recipients1$inboundSchema` instead. */
-  export const inboundSchema = Recipients1$inboundSchema;
-  /** @deprecated use `Recipients1$outboundSchema` instead. */
-  export const outboundSchema = Recipients1$outboundSchema;
-  /** @deprecated use `Recipients1$Outbound` instead. */
-  export type Outbound = Recipients1$Outbound;
+export namespace ShipmentRecipients$ {
+  /** @deprecated use `ShipmentRecipients$inboundSchema` instead. */
+  export const inboundSchema = ShipmentRecipients$inboundSchema;
+  /** @deprecated use `ShipmentRecipients$outboundSchema` instead. */
+  export const outboundSchema = ShipmentRecipients$outboundSchema;
+  /** @deprecated use `ShipmentRecipients$Outbound` instead. */
+  export type Outbound = ShipmentRecipients$Outbound;
 }
 
-export function recipients1ToJSON(recipients1: Recipients1): string {
-  return JSON.stringify(Recipients1$outboundSchema.parse(recipients1));
+export function shipmentRecipientsToJSON(
+  shipmentRecipients: ShipmentRecipients,
+): string {
+  return JSON.stringify(
+    ShipmentRecipients$outboundSchema.parse(shipmentRecipients),
+  );
 }
 
-export function recipients1FromJSON(
+export function shipmentRecipientsFromJSON(
   jsonString: string,
-): SafeParseResult<Recipients1, SDKValidationError> {
+): SafeParseResult<ShipmentRecipients, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Recipients1$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Recipients1' from JSON`,
+    (x) => ShipmentRecipients$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ShipmentRecipients' from JSON`,
   );
 }
 
 /** @internal */
-export const Recipients2$inboundSchema: z.ZodType<
-  Recipients2,
+export const ShipmentDocuments$inboundSchema: z.ZodType<
+  ShipmentDocuments,
   z.ZodTypeDef,
   unknown
 > = z.union([
-  RecipientInline$inboundSchema,
-  RecipientFromAddressBook$inboundSchema,
-  RecipientFromAddressBookByExternalId$inboundSchema,
-  z.array(
-    z.union([
-      RecipientInline$inboundSchema,
-      RecipientFromAddressBook$inboundSchema,
-      RecipientFromAddressBookByExternalId$inboundSchema,
-    ]),
-  ),
+  Documents$inboundSchema,
+  z.array(z.lazy(() => Documents$inboundSchema)),
 ]);
 
 /** @internal */
-export type Recipients2$Outbound =
-  | RecipientInline$Outbound
-  | RecipientFromAddressBook$Outbound
-  | RecipientFromAddressBookByExternalId$Outbound
-  | Array<
-    | RecipientInline$Outbound
-    | RecipientFromAddressBook$Outbound
-    | RecipientFromAddressBookByExternalId$Outbound
-  >;
+export type ShipmentDocuments$Outbound =
+  | Documents$Outbound
+  | Array<Documents$Outbound>;
 
 /** @internal */
-export const Recipients2$outboundSchema: z.ZodType<
-  Recipients2$Outbound,
+export const ShipmentDocuments$outboundSchema: z.ZodType<
+  ShipmentDocuments$Outbound,
   z.ZodTypeDef,
-  Recipients2
+  ShipmentDocuments
 > = z.union([
-  RecipientInline$outboundSchema,
-  RecipientFromAddressBook$outboundSchema,
-  RecipientFromAddressBookByExternalId$outboundSchema,
-  z.array(
-    z.union([
-      RecipientInline$outboundSchema,
-      RecipientFromAddressBook$outboundSchema,
-      RecipientFromAddressBookByExternalId$outboundSchema,
-    ]),
-  ),
+  Documents$outboundSchema,
+  z.array(z.lazy(() => Documents$outboundSchema)),
 ]);
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace Recipients2$ {
-  /** @deprecated use `Recipients2$inboundSchema` instead. */
-  export const inboundSchema = Recipients2$inboundSchema;
-  /** @deprecated use `Recipients2$outboundSchema` instead. */
-  export const outboundSchema = Recipients2$outboundSchema;
-  /** @deprecated use `Recipients2$Outbound` instead. */
-  export type Outbound = Recipients2$Outbound;
+export namespace ShipmentDocuments$ {
+  /** @deprecated use `ShipmentDocuments$inboundSchema` instead. */
+  export const inboundSchema = ShipmentDocuments$inboundSchema;
+  /** @deprecated use `ShipmentDocuments$outboundSchema` instead. */
+  export const outboundSchema = ShipmentDocuments$outboundSchema;
+  /** @deprecated use `ShipmentDocuments$Outbound` instead. */
+  export type Outbound = ShipmentDocuments$Outbound;
 }
 
-export function recipients2ToJSON(recipients2: Recipients2): string {
-  return JSON.stringify(Recipients2$outboundSchema.parse(recipients2));
-}
-
-export function recipients2FromJSON(
-  jsonString: string,
-): SafeParseResult<Recipients2, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Recipients2$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Recipients2' from JSON`,
+export function shipmentDocumentsToJSON(
+  shipmentDocuments: ShipmentDocuments,
+): string {
+  return JSON.stringify(
+    ShipmentDocuments$outboundSchema.parse(shipmentDocuments),
   );
 }
 
-/** @internal */
-export const Documents1$inboundSchema: z.ZodType<
-  Documents1,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  DocumentPdf$inboundSchema,
-  DocumentLibrary$inboundSchema,
-  DocumentMock$inboundSchema,
-]);
-
-/** @internal */
-export type Documents1$Outbound =
-  | DocumentPdf$Outbound
-  | DocumentLibrary$Outbound
-  | DocumentMock$Outbound;
-
-/** @internal */
-export const Documents1$outboundSchema: z.ZodType<
-  Documents1$Outbound,
-  z.ZodTypeDef,
-  Documents1
-> = z.union([
-  DocumentPdf$outboundSchema,
-  DocumentLibrary$outboundSchema,
-  DocumentMock$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Documents1$ {
-  /** @deprecated use `Documents1$inboundSchema` instead. */
-  export const inboundSchema = Documents1$inboundSchema;
-  /** @deprecated use `Documents1$outboundSchema` instead. */
-  export const outboundSchema = Documents1$outboundSchema;
-  /** @deprecated use `Documents1$Outbound` instead. */
-  export type Outbound = Documents1$Outbound;
-}
-
-export function documents1ToJSON(documents1: Documents1): string {
-  return JSON.stringify(Documents1$outboundSchema.parse(documents1));
-}
-
-export function documents1FromJSON(
+export function shipmentDocumentsFromJSON(
   jsonString: string,
-): SafeParseResult<Documents1, SDKValidationError> {
+): SafeParseResult<ShipmentDocuments, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => Documents1$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Documents1' from JSON`,
-  );
-}
-
-/** @internal */
-export const Documents2$inboundSchema: z.ZodType<
-  Documents2,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  DocumentPdf$inboundSchema,
-  DocumentLibrary$inboundSchema,
-  DocumentMock$inboundSchema,
-  z.array(
-    z.union([
-      DocumentPdf$inboundSchema,
-      DocumentLibrary$inboundSchema,
-      DocumentMock$inboundSchema,
-    ]),
-  ),
-]);
-
-/** @internal */
-export type Documents2$Outbound =
-  | DocumentPdf$Outbound
-  | DocumentLibrary$Outbound
-  | DocumentMock$Outbound
-  | Array<
-    DocumentPdf$Outbound | DocumentLibrary$Outbound | DocumentMock$Outbound
-  >;
-
-/** @internal */
-export const Documents2$outboundSchema: z.ZodType<
-  Documents2$Outbound,
-  z.ZodTypeDef,
-  Documents2
-> = z.union([
-  DocumentPdf$outboundSchema,
-  DocumentLibrary$outboundSchema,
-  DocumentMock$outboundSchema,
-  z.array(
-    z.union([
-      DocumentPdf$outboundSchema,
-      DocumentLibrary$outboundSchema,
-      DocumentMock$outboundSchema,
-    ]),
-  ),
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Documents2$ {
-  /** @deprecated use `Documents2$inboundSchema` instead. */
-  export const inboundSchema = Documents2$inboundSchema;
-  /** @deprecated use `Documents2$outboundSchema` instead. */
-  export const outboundSchema = Documents2$outboundSchema;
-  /** @deprecated use `Documents2$Outbound` instead. */
-  export type Outbound = Documents2$Outbound;
-}
-
-export function documents2ToJSON(documents2: Documents2): string {
-  return JSON.stringify(Documents2$outboundSchema.parse(documents2));
-}
-
-export function documents2FromJSON(
-  jsonString: string,
-): SafeParseResult<Documents2, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Documents2$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Documents2' from JSON`,
+    (x) => ShipmentDocuments$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ShipmentDocuments' from JSON`,
   );
 }
 
@@ -799,8 +600,8 @@ export function miscInfoUnionFromJSON(
 }
 
 /** @internal */
-export const RequestOptions$inboundSchema: z.ZodType<
-  RequestOptions,
+export const ShipmentOptions$inboundSchema: z.ZodType<
+  ShipmentOptions,
   z.ZodTypeDef,
   unknown
 > = z.object({
@@ -824,7 +625,7 @@ export const RequestOptions$inboundSchema: z.ZodType<
 });
 
 /** @internal */
-export type RequestOptions$Outbound = {
+export type ShipmentOptions$Outbound = {
   predefined_config_id?: number | null | undefined;
   inline_config?: InlineConfig$Outbound | null | undefined;
   sender_id?: number | null | undefined;
@@ -835,10 +636,10 @@ export type RequestOptions$Outbound = {
 };
 
 /** @internal */
-export const RequestOptions$outboundSchema: z.ZodType<
-  RequestOptions$Outbound,
+export const ShipmentOptions$outboundSchema: z.ZodType<
+  ShipmentOptions$Outbound,
   z.ZodTypeDef,
-  RequestOptions
+  ShipmentOptions
 > = z.object({
   predefinedConfigId: z.nullable(z.number().int()).optional(),
   inlineConfig: z.nullable(z.lazy(() => InlineConfig$outboundSchema))
@@ -863,42 +664,44 @@ export const RequestOptions$outboundSchema: z.ZodType<
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace RequestOptions$ {
-  /** @deprecated use `RequestOptions$inboundSchema` instead. */
-  export const inboundSchema = RequestOptions$inboundSchema;
-  /** @deprecated use `RequestOptions$outboundSchema` instead. */
-  export const outboundSchema = RequestOptions$outboundSchema;
-  /** @deprecated use `RequestOptions$Outbound` instead. */
-  export type Outbound = RequestOptions$Outbound;
+export namespace ShipmentOptions$ {
+  /** @deprecated use `ShipmentOptions$inboundSchema` instead. */
+  export const inboundSchema = ShipmentOptions$inboundSchema;
+  /** @deprecated use `ShipmentOptions$outboundSchema` instead. */
+  export const outboundSchema = ShipmentOptions$outboundSchema;
+  /** @deprecated use `ShipmentOptions$Outbound` instead. */
+  export type Outbound = ShipmentOptions$Outbound;
 }
 
-export function requestOptionsToJSON(requestOptions: RequestOptions): string {
-  return JSON.stringify(RequestOptions$outboundSchema.parse(requestOptions));
+export function shipmentOptionsToJSON(
+  shipmentOptions: ShipmentOptions,
+): string {
+  return JSON.stringify(ShipmentOptions$outboundSchema.parse(shipmentOptions));
 }
 
-export function requestOptionsFromJSON(
+export function shipmentOptionsFromJSON(
   jsonString: string,
-): SafeParseResult<RequestOptions, SDKValidationError> {
+): SafeParseResult<ShipmentOptions, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => RequestOptions$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RequestOptions' from JSON`,
+    (x) => ShipmentOptions$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ShipmentOptions' from JSON`,
   );
 }
 
 /** @internal */
 export const Options$inboundSchema: z.ZodType<Options, z.ZodTypeDef, unknown> =
-  z.lazy(() => RequestOptions$inboundSchema);
+  z.lazy(() => ShipmentOptions$inboundSchema);
 
 /** @internal */
-export type Options$Outbound = RequestOptions$Outbound;
+export type Options$Outbound = ShipmentOptions$Outbound;
 
 /** @internal */
 export const Options$outboundSchema: z.ZodType<
   Options$Outbound,
   z.ZodTypeDef,
   Options
-> = z.lazy(() => RequestOptions$outboundSchema);
+> = z.lazy(() => ShipmentOptions$outboundSchema);
 
 /**
  * @internal
@@ -934,51 +737,21 @@ export const Shipment$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   recipients: z.union([
-    RecipientInline$inboundSchema,
-    RecipientFromAddressBook$inboundSchema,
-    RecipientFromAddressBookByExternalId$inboundSchema,
-    z.array(
-      z.union([
-        RecipientInline$inboundSchema,
-        RecipientFromAddressBook$inboundSchema,
-        RecipientFromAddressBookByExternalId$inboundSchema,
-      ]),
-    ),
+    Recipients$inboundSchema,
+    z.array(z.lazy(() => Recipients$inboundSchema)),
   ]),
   documents: z.union([
-    DocumentPdf$inboundSchema,
-    DocumentLibrary$inboundSchema,
-    DocumentMock$inboundSchema,
-    z.array(
-      z.union([
-        DocumentPdf$inboundSchema,
-        DocumentLibrary$inboundSchema,
-        DocumentMock$inboundSchema,
-      ]),
-    ),
+    Documents$inboundSchema,
+    z.array(z.lazy(() => Documents$inboundSchema)),
   ]),
-  options: z.nullable(z.lazy(() => RequestOptions$inboundSchema)).optional(),
+  options: z.nullable(z.lazy(() => ShipmentOptions$inboundSchema)).optional(),
 });
 
 /** @internal */
 export type Shipment$Outbound = {
-  recipients:
-    | RecipientInline$Outbound
-    | RecipientFromAddressBook$Outbound
-    | RecipientFromAddressBookByExternalId$Outbound
-    | Array<
-      | RecipientInline$Outbound
-      | RecipientFromAddressBook$Outbound
-      | RecipientFromAddressBookByExternalId$Outbound
-    >;
-  documents:
-    | DocumentPdf$Outbound
-    | DocumentLibrary$Outbound
-    | DocumentMock$Outbound
-    | Array<
-      DocumentPdf$Outbound | DocumentLibrary$Outbound | DocumentMock$Outbound
-    >;
-  options?: RequestOptions$Outbound | null | undefined;
+  recipients: Recipients$Outbound | Array<Recipients$Outbound>;
+  documents: Documents$Outbound | Array<Documents$Outbound>;
+  options?: ShipmentOptions$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -988,30 +761,14 @@ export const Shipment$outboundSchema: z.ZodType<
   Shipment
 > = z.object({
   recipients: z.union([
-    RecipientInline$outboundSchema,
-    RecipientFromAddressBook$outboundSchema,
-    RecipientFromAddressBookByExternalId$outboundSchema,
-    z.array(
-      z.union([
-        RecipientInline$outboundSchema,
-        RecipientFromAddressBook$outboundSchema,
-        RecipientFromAddressBookByExternalId$outboundSchema,
-      ]),
-    ),
+    Recipients$outboundSchema,
+    z.array(z.lazy(() => Recipients$outboundSchema)),
   ]),
   documents: z.union([
-    DocumentPdf$outboundSchema,
-    DocumentLibrary$outboundSchema,
-    DocumentMock$outboundSchema,
-    z.array(
-      z.union([
-        DocumentPdf$outboundSchema,
-        DocumentLibrary$outboundSchema,
-        DocumentMock$outboundSchema,
-      ]),
-    ),
+    Documents$outboundSchema,
+    z.array(z.lazy(() => Documents$outboundSchema)),
   ]),
-  options: z.nullable(z.lazy(() => RequestOptions$outboundSchema)).optional(),
+  options: z.nullable(z.lazy(() => ShipmentOptions$outboundSchema)).optional(),
 });
 
 /**
