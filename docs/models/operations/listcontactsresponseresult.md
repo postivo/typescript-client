@@ -22,6 +22,7 @@ const value: models.ContactResponse[] = [
       534,
     ],
     id: 776,
+    inherited: false,
   },
 ];
 ```

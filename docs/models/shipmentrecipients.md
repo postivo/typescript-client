@@ -29,7 +29,7 @@ const value: models.Recipients = {
 const value: models.Recipients[] = [
   {
     extId: "marcin-344",
-    fromShared: true,
+    inherited: true,
     customId: "my-id-1113",
     postscript: "Do rąk własnych",
   },

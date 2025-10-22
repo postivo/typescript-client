@@ -25,6 +25,7 @@ let value: UpdateContactResponse = {
       534,
     ],
     id: 776,
+    inherited: false,
   },
 };
 ```

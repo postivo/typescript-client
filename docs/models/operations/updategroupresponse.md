@@ -15,6 +15,7 @@ let value: UpdateGroupResponse = {
     name: "my-group",
     description: "This is a group for school contacts",
     id: 234,
+    inherited: false,
   },
 };
 ```

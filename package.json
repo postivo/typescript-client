@@ -1,6 +1,6 @@
 {
   "name": "@postivo/postivo-client",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "author": "POSTIVO.PL",
   "type": "module",
   "tshy": {
@@ -34,7 +34,7 @@
     "typescript-eslint": "^8.26.0"
   },
   "dependencies": {
-    "zod": "^3.20.0"
+    "zod": "^3.25.0 || ^4.0.0"
   },
   "exports": {
     ".": {
