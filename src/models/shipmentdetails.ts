@@ -8,18 +8,8 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  Recipient,
-  Recipient$inboundSchema,
-  Recipient$Outbound,
-  Recipient$outboundSchema,
-} from "./recipient.js";
-import {
-  Sender,
-  Sender$inboundSchema,
-  Sender$Outbound,
-  Sender$outboundSchema,
-} from "./sender.js";
+import { Recipient, Recipient$inboundSchema } from "./recipient.js";
+import { Sender, Sender$inboundSchema } from "./sender.js";
 
 /**
  * Shipment processing status.
@@ -134,47 +124,6 @@ export const ShipmentDetailsStatus$inboundSchema: z.ZodType<
     .optional(),
 });
 
-/** @internal */
-export type ShipmentDetailsStatus$Outbound = {
-  error?: boolean | undefined;
-  code?: string | undefined;
-  name?: string | undefined;
-  date?: string | undefined;
-};
-
-/** @internal */
-export const ShipmentDetailsStatus$outboundSchema: z.ZodType<
-  ShipmentDetailsStatus$Outbound,
-  z.ZodTypeDef,
-  ShipmentDetailsStatus
-> = z.object({
-  error: z.boolean().optional(),
-  code: z.string().optional(),
-  name: z.string().optional(),
-  date: z.date().transform(v => v.toISOString()).optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDetailsStatus$ {
-  /** @deprecated use `ShipmentDetailsStatus$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDetailsStatus$inboundSchema;
-  /** @deprecated use `ShipmentDetailsStatus$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDetailsStatus$outboundSchema;
-  /** @deprecated use `ShipmentDetailsStatus$Outbound` instead. */
-  export type Outbound = ShipmentDetailsStatus$Outbound;
-}
-
-export function shipmentDetailsStatusToJSON(
-  shipmentDetailsStatus: ShipmentDetailsStatus,
-): string {
-  return JSON.stringify(
-    ShipmentDetailsStatus$outboundSchema.parse(shipmentDetailsStatus),
-  );
-}
-
 export function shipmentDetailsStatusFromJSON(
   jsonString: string,
 ): SafeParseResult<ShipmentDetailsStatus, SDKValidationError> {
@@ -195,43 +144,6 @@ export const ShipmentDetailsCarrier$inboundSchema: z.ZodType<
   name: z.nullable(z.string()).optional(),
 });
 
-/** @internal */
-export type ShipmentDetailsCarrier$Outbound = {
-  id?: number | null | undefined;
-  name?: string | null | undefined;
-};
-
-/** @internal */
-export const ShipmentDetailsCarrier$outboundSchema: z.ZodType<
-  ShipmentDetailsCarrier$Outbound,
-  z.ZodTypeDef,
-  ShipmentDetailsCarrier
-> = z.object({
-  id: z.nullable(z.number().int()).optional(),
-  name: z.nullable(z.string()).optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDetailsCarrier$ {
-  /** @deprecated use `ShipmentDetailsCarrier$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDetailsCarrier$inboundSchema;
-  /** @deprecated use `ShipmentDetailsCarrier$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDetailsCarrier$outboundSchema;
-  /** @deprecated use `ShipmentDetailsCarrier$Outbound` instead. */
-  export type Outbound = ShipmentDetailsCarrier$Outbound;
-}
-
-export function shipmentDetailsCarrierToJSON(
-  shipmentDetailsCarrier: ShipmentDetailsCarrier,
-): string {
-  return JSON.stringify(
-    ShipmentDetailsCarrier$outboundSchema.parse(shipmentDetailsCarrier),
-  );
-}
-
 export function shipmentDetailsCarrierFromJSON(
   jsonString: string,
 ): SafeParseResult<ShipmentDetailsCarrier, SDKValidationError> {
@@ -251,43 +163,6 @@ export const ShipmentDetailsService$inboundSchema: z.ZodType<
   id: z.nullable(z.number().int()).optional(),
   name: z.nullable(z.string()).optional(),
 });
-
-/** @internal */
-export type ShipmentDetailsService$Outbound = {
-  id?: number | null | undefined;
-  name?: string | null | undefined;
-};
-
-/** @internal */
-export const ShipmentDetailsService$outboundSchema: z.ZodType<
-  ShipmentDetailsService$Outbound,
-  z.ZodTypeDef,
-  ShipmentDetailsService
-> = z.object({
-  id: z.nullable(z.number().int()).optional(),
-  name: z.nullable(z.string()).optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDetailsService$ {
-  /** @deprecated use `ShipmentDetailsService$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDetailsService$inboundSchema;
-  /** @deprecated use `ShipmentDetailsService$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDetailsService$outboundSchema;
-  /** @deprecated use `ShipmentDetailsService$Outbound` instead. */
-  export type Outbound = ShipmentDetailsService$Outbound;
-}
-
-export function shipmentDetailsServiceToJSON(
-  shipmentDetailsService: ShipmentDetailsService,
-): string {
-  return JSON.stringify(
-    ShipmentDetailsService$outboundSchema.parse(shipmentDetailsService),
-  );
-}
 
 export function shipmentDetailsServiceFromJSON(
   jsonString: string,
@@ -325,67 +200,6 @@ export const ShipmentDetails$inboundSchema: z.ZodType<
     "page_number": "pageNumber",
   });
 });
-
-/** @internal */
-export type ShipmentDetails$Outbound = {
-  id?: string | null | undefined;
-  custom_id?: string | null | undefined;
-  tracking_number?: string | null | undefined;
-  recipient?: Recipient$Outbound | undefined;
-  sender?: Sender$Outbound | undefined;
-  status?: ShipmentDetailsStatus$Outbound | undefined;
-  carrier?: ShipmentDetailsCarrier$Outbound | undefined;
-  service?: ShipmentDetailsService$Outbound | undefined;
-  dispatch_date?: string | null | undefined;
-  page_number?: number | undefined;
-  price?: number | undefined;
-};
-
-/** @internal */
-export const ShipmentDetails$outboundSchema: z.ZodType<
-  ShipmentDetails$Outbound,
-  z.ZodTypeDef,
-  ShipmentDetails
-> = z.object({
-  id: z.nullable(z.string()).optional(),
-  customId: z.nullable(z.string()).optional(),
-  trackingNumber: z.nullable(z.string()).optional(),
-  recipient: Recipient$outboundSchema.optional(),
-  sender: Sender$outboundSchema.optional(),
-  status: z.lazy(() => ShipmentDetailsStatus$outboundSchema).optional(),
-  carrier: z.lazy(() => ShipmentDetailsCarrier$outboundSchema).optional(),
-  service: z.lazy(() => ShipmentDetailsService$outboundSchema).optional(),
-  dispatchDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
-  pageNumber: z.number().int().optional(),
-  price: z.number().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    customId: "custom_id",
-    trackingNumber: "tracking_number",
-    dispatchDate: "dispatch_date",
-    pageNumber: "page_number",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDetails$ {
-  /** @deprecated use `ShipmentDetails$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDetails$inboundSchema;
-  /** @deprecated use `ShipmentDetails$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDetails$outboundSchema;
-  /** @deprecated use `ShipmentDetails$Outbound` instead. */
-  export type Outbound = ShipmentDetails$Outbound;
-}
-
-export function shipmentDetailsToJSON(
-  shipmentDetails: ShipmentDetails,
-): string {
-  return JSON.stringify(ShipmentDetails$outboundSchema.parse(shipmentDetails));
-}
 
 export function shipmentDetailsFromJSON(
   jsonString: string,

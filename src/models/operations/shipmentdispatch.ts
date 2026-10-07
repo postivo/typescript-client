@@ -28,44 +28,6 @@ export const ShipmentDispatchResponseResult$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ShipmentDispatchResponseResult$Outbound =
-  | Array<models.ShipmentDetails$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ShipmentDispatchResponseResult$outboundSchema: z.ZodType<
-  ShipmentDispatchResponseResult$Outbound,
-  z.ZodTypeDef,
-  ShipmentDispatchResponseResult
-> = z.union([
-  z.array(models.ShipmentDetails$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDispatchResponseResult$ {
-  /** @deprecated use `ShipmentDispatchResponseResult$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDispatchResponseResult$inboundSchema;
-  /** @deprecated use `ShipmentDispatchResponseResult$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDispatchResponseResult$outboundSchema;
-  /** @deprecated use `ShipmentDispatchResponseResult$Outbound` instead. */
-  export type Outbound = ShipmentDispatchResponseResult$Outbound;
-}
-
-export function shipmentDispatchResponseResultToJSON(
-  shipmentDispatchResponseResult: ShipmentDispatchResponseResult,
-): string {
-  return JSON.stringify(
-    ShipmentDispatchResponseResult$outboundSchema.parse(
-      shipmentDispatchResponseResult,
-    ),
-  );
-}
-
 export function shipmentDispatchResponseResultFromJSON(
   jsonString: string,
 ): SafeParseResult<ShipmentDispatchResponseResult, SDKValidationError> {
@@ -82,7 +44,7 @@ export const ShipmentDispatchResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     z.array(models.ShipmentDetails$inboundSchema),
     models.ErrorResponse$inboundSchema,
@@ -93,53 +55,6 @@ export const ShipmentDispatchResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type ShipmentDispatchResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result:
-    | Array<models.ShipmentDetails$Outbound>
-    | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const ShipmentDispatchResponse$outboundSchema: z.ZodType<
-  ShipmentDispatchResponse$Outbound,
-  z.ZodTypeDef,
-  ShipmentDispatchResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    z.array(models.ShipmentDetails$outboundSchema),
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDispatchResponse$ {
-  /** @deprecated use `ShipmentDispatchResponse$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDispatchResponse$inboundSchema;
-  /** @deprecated use `ShipmentDispatchResponse$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDispatchResponse$outboundSchema;
-  /** @deprecated use `ShipmentDispatchResponse$Outbound` instead. */
-  export type Outbound = ShipmentDispatchResponse$Outbound;
-}
-
-export function shipmentDispatchResponseToJSON(
-  shipmentDispatchResponse: ShipmentDispatchResponse,
-): string {
-  return JSON.stringify(
-    ShipmentDispatchResponse$outboundSchema.parse(shipmentDispatchResponse),
-  );
-}
 
 export function shipmentDispatchResponseFromJSON(
   jsonString: string,

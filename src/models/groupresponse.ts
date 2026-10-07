@@ -41,43 +41,6 @@ export const GroupResponse$inboundSchema: z.ZodType<
   inherited: z.boolean().optional(),
 });
 
-/** @internal */
-export type GroupResponse$Outbound = {
-  name: string;
-  description?: string | null | undefined;
-  id: number;
-  inherited?: boolean | undefined;
-};
-
-/** @internal */
-export const GroupResponse$outboundSchema: z.ZodType<
-  GroupResponse$Outbound,
-  z.ZodTypeDef,
-  GroupResponse
-> = z.object({
-  name: z.string(),
-  description: z.nullable(z.string()).optional(),
-  id: z.number().int(),
-  inherited: z.boolean().optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GroupResponse$ {
-  /** @deprecated use `GroupResponse$inboundSchema` instead. */
-  export const inboundSchema = GroupResponse$inboundSchema;
-  /** @deprecated use `GroupResponse$outboundSchema` instead. */
-  export const outboundSchema = GroupResponse$outboundSchema;
-  /** @deprecated use `GroupResponse$Outbound` instead. */
-  export type Outbound = GroupResponse$Outbound;
-}
-
-export function groupResponseToJSON(groupResponse: GroupResponse): string {
-  return JSON.stringify(GroupResponse$outboundSchema.parse(groupResponse));
-}
-
 export function groupResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<GroupResponse, SDKValidationError> {

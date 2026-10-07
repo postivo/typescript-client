@@ -18,15 +18,6 @@ export type GetGroupByIdRequest = {
 export type GetGroupByIdResponse = models.GroupResponse | models.ErrorResponse;
 
 /** @internal */
-export const GetGroupByIdRequest$inboundSchema: z.ZodType<
-  GetGroupByIdRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-});
-
-/** @internal */
 export type GetGroupByIdRequest$Outbound = {
   id: number;
 };
@@ -40,34 +31,11 @@ export const GetGroupByIdRequest$outboundSchema: z.ZodType<
   id: z.number().int(),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetGroupByIdRequest$ {
-  /** @deprecated use `GetGroupByIdRequest$inboundSchema` instead. */
-  export const inboundSchema = GetGroupByIdRequest$inboundSchema;
-  /** @deprecated use `GetGroupByIdRequest$outboundSchema` instead. */
-  export const outboundSchema = GetGroupByIdRequest$outboundSchema;
-  /** @deprecated use `GetGroupByIdRequest$Outbound` instead. */
-  export type Outbound = GetGroupByIdRequest$Outbound;
-}
-
 export function getGroupByIdRequestToJSON(
   getGroupByIdRequest: GetGroupByIdRequest,
 ): string {
   return JSON.stringify(
     GetGroupByIdRequest$outboundSchema.parse(getGroupByIdRequest),
-  );
-}
-
-export function getGroupByIdRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<GetGroupByIdRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetGroupByIdRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetGroupByIdRequest' from JSON`,
   );
 }
 
@@ -80,42 +48,6 @@ export const GetGroupByIdResponse$inboundSchema: z.ZodType<
   models.GroupResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type GetGroupByIdResponse$Outbound =
-  | models.GroupResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetGroupByIdResponse$outboundSchema: z.ZodType<
-  GetGroupByIdResponse$Outbound,
-  z.ZodTypeDef,
-  GetGroupByIdResponse
-> = z.union([
-  models.GroupResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetGroupByIdResponse$ {
-  /** @deprecated use `GetGroupByIdResponse$inboundSchema` instead. */
-  export const inboundSchema = GetGroupByIdResponse$inboundSchema;
-  /** @deprecated use `GetGroupByIdResponse$outboundSchema` instead. */
-  export const outboundSchema = GetGroupByIdResponse$outboundSchema;
-  /** @deprecated use `GetGroupByIdResponse$Outbound` instead. */
-  export type Outbound = GetGroupByIdResponse$Outbound;
-}
-
-export function getGroupByIdResponseToJSON(
-  getGroupByIdResponse: GetGroupByIdResponse,
-): string {
-  return JSON.stringify(
-    GetGroupByIdResponse$outboundSchema.parse(getGroupByIdResponse),
-  );
-}
 
 export function getGroupByIdResponseFromJSON(
   jsonString: string,

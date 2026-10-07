@@ -30,21 +30,6 @@ export type UpdateContactByExternalIdResponse = {
 };
 
 /** @internal */
-export const UpdateContactByExternalIdRequest$inboundSchema: z.ZodType<
-  UpdateContactByExternalIdRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-  Contact: models.Contact$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-    "Contact": "contact",
-  });
-});
-
-/** @internal */
 export type UpdateContactByExternalIdRequest$Outbound = {
   ext_id: string;
   Contact: models.Contact$Outbound;
@@ -65,19 +50,6 @@ export const UpdateContactByExternalIdRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateContactByExternalIdRequest$ {
-  /** @deprecated use `UpdateContactByExternalIdRequest$inboundSchema` instead. */
-  export const inboundSchema = UpdateContactByExternalIdRequest$inboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdRequest$outboundSchema` instead. */
-  export const outboundSchema = UpdateContactByExternalIdRequest$outboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdRequest$Outbound` instead. */
-  export type Outbound = UpdateContactByExternalIdRequest$Outbound;
-}
-
 export function updateContactByExternalIdRequestToJSON(
   updateContactByExternalIdRequest: UpdateContactByExternalIdRequest,
 ): string {
@@ -85,16 +57,6 @@ export function updateContactByExternalIdRequestToJSON(
     UpdateContactByExternalIdRequest$outboundSchema.parse(
       updateContactByExternalIdRequest,
     ),
-  );
-}
-
-export function updateContactByExternalIdRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<UpdateContactByExternalIdRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpdateContactByExternalIdRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpdateContactByExternalIdRequest' from JSON`,
   );
 }
 
@@ -107,47 +69,6 @@ export const UpdateContactByExternalIdResponseResult$inboundSchema: z.ZodType<
   models.ContactResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type UpdateContactByExternalIdResponseResult$Outbound =
-  | models.ContactResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const UpdateContactByExternalIdResponseResult$outboundSchema: z.ZodType<
-  UpdateContactByExternalIdResponseResult$Outbound,
-  z.ZodTypeDef,
-  UpdateContactByExternalIdResponseResult
-> = z.union([
-  models.ContactResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateContactByExternalIdResponseResult$ {
-  /** @deprecated use `UpdateContactByExternalIdResponseResult$inboundSchema` instead. */
-  export const inboundSchema =
-    UpdateContactByExternalIdResponseResult$inboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdResponseResult$outboundSchema` instead. */
-  export const outboundSchema =
-    UpdateContactByExternalIdResponseResult$outboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdResponseResult$Outbound` instead. */
-  export type Outbound = UpdateContactByExternalIdResponseResult$Outbound;
-}
-
-export function updateContactByExternalIdResponseResultToJSON(
-  updateContactByExternalIdResponseResult:
-    UpdateContactByExternalIdResponseResult,
-): string {
-  return JSON.stringify(
-    UpdateContactByExternalIdResponseResult$outboundSchema.parse(
-      updateContactByExternalIdResponseResult,
-    ),
-  );
-}
 
 export function updateContactByExternalIdResponseResultFromJSON(
   jsonString: string,
@@ -171,7 +92,7 @@ export const UpdateContactByExternalIdResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.ContactResponse$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -182,54 +103,6 @@ export const UpdateContactByExternalIdResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type UpdateContactByExternalIdResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ContactResponse$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const UpdateContactByExternalIdResponse$outboundSchema: z.ZodType<
-  UpdateContactByExternalIdResponse$Outbound,
-  z.ZodTypeDef,
-  UpdateContactByExternalIdResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.ContactResponse$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateContactByExternalIdResponse$ {
-  /** @deprecated use `UpdateContactByExternalIdResponse$inboundSchema` instead. */
-  export const inboundSchema = UpdateContactByExternalIdResponse$inboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdResponse$outboundSchema` instead. */
-  export const outboundSchema =
-    UpdateContactByExternalIdResponse$outboundSchema;
-  /** @deprecated use `UpdateContactByExternalIdResponse$Outbound` instead. */
-  export type Outbound = UpdateContactByExternalIdResponse$Outbound;
-}
-
-export function updateContactByExternalIdResponseToJSON(
-  updateContactByExternalIdResponse: UpdateContactByExternalIdResponse,
-): string {
-  return JSON.stringify(
-    UpdateContactByExternalIdResponse$outboundSchema.parse(
-      updateContactByExternalIdResponse,
-    ),
-  );
-}
 
 export function updateContactByExternalIdResponseFromJSON(
   jsonString: string,

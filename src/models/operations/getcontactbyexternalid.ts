@@ -21,19 +21,6 @@ export type GetContactByExternalIdResponse =
   | models.ErrorResponse;
 
 /** @internal */
-export const GetContactByExternalIdRequest$inboundSchema: z.ZodType<
-  GetContactByExternalIdRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-  });
-});
-
-/** @internal */
 export type GetContactByExternalIdRequest$Outbound = {
   ext_id: string;
 };
@@ -51,19 +38,6 @@ export const GetContactByExternalIdRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetContactByExternalIdRequest$ {
-  /** @deprecated use `GetContactByExternalIdRequest$inboundSchema` instead. */
-  export const inboundSchema = GetContactByExternalIdRequest$inboundSchema;
-  /** @deprecated use `GetContactByExternalIdRequest$outboundSchema` instead. */
-  export const outboundSchema = GetContactByExternalIdRequest$outboundSchema;
-  /** @deprecated use `GetContactByExternalIdRequest$Outbound` instead. */
-  export type Outbound = GetContactByExternalIdRequest$Outbound;
-}
-
 export function getContactByExternalIdRequestToJSON(
   getContactByExternalIdRequest: GetContactByExternalIdRequest,
 ): string {
@@ -71,16 +45,6 @@ export function getContactByExternalIdRequestToJSON(
     GetContactByExternalIdRequest$outboundSchema.parse(
       getContactByExternalIdRequest,
     ),
-  );
-}
-
-export function getContactByExternalIdRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<GetContactByExternalIdRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetContactByExternalIdRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetContactByExternalIdRequest' from JSON`,
   );
 }
 
@@ -93,44 +57,6 @@ export const GetContactByExternalIdResponse$inboundSchema: z.ZodType<
   models.ContactResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type GetContactByExternalIdResponse$Outbound =
-  | models.ContactResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetContactByExternalIdResponse$outboundSchema: z.ZodType<
-  GetContactByExternalIdResponse$Outbound,
-  z.ZodTypeDef,
-  GetContactByExternalIdResponse
-> = z.union([
-  models.ContactResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetContactByExternalIdResponse$ {
-  /** @deprecated use `GetContactByExternalIdResponse$inboundSchema` instead. */
-  export const inboundSchema = GetContactByExternalIdResponse$inboundSchema;
-  /** @deprecated use `GetContactByExternalIdResponse$outboundSchema` instead. */
-  export const outboundSchema = GetContactByExternalIdResponse$outboundSchema;
-  /** @deprecated use `GetContactByExternalIdResponse$Outbound` instead. */
-  export type Outbound = GetContactByExternalIdResponse$Outbound;
-}
-
-export function getContactByExternalIdResponseToJSON(
-  getContactByExternalIdResponse: GetContactByExternalIdResponse,
-): string {
-  return JSON.stringify(
-    GetContactByExternalIdResponse$outboundSchema.parse(
-      getContactByExternalIdResponse,
-    ),
-  );
-}
 
 export function getContactByExternalIdResponseFromJSON(
   jsonString: string,

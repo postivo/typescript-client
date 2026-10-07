@@ -133,51 +133,6 @@ export const MetadataResponseService$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type MetadataResponseService$Outbound = {
-  service_id?: number | undefined;
-  service_name?: string | undefined;
-  service_return_fee?: number | undefined;
-};
-
-/** @internal */
-export const MetadataResponseService$outboundSchema: z.ZodType<
-  MetadataResponseService$Outbound,
-  z.ZodTypeDef,
-  MetadataResponseService
-> = z.object({
-  serviceId: z.number().int().optional(),
-  serviceName: z.string().optional(),
-  serviceReturnFee: z.number().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    serviceId: "service_id",
-    serviceName: "service_name",
-    serviceReturnFee: "service_return_fee",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace MetadataResponseService$ {
-  /** @deprecated use `MetadataResponseService$inboundSchema` instead. */
-  export const inboundSchema = MetadataResponseService$inboundSchema;
-  /** @deprecated use `MetadataResponseService$outboundSchema` instead. */
-  export const outboundSchema = MetadataResponseService$outboundSchema;
-  /** @deprecated use `MetadataResponseService$Outbound` instead. */
-  export type Outbound = MetadataResponseService$Outbound;
-}
-
-export function metadataResponseServiceToJSON(
-  metadataResponseService: MetadataResponseService,
-): string {
-  return JSON.stringify(
-    MetadataResponseService$outboundSchema.parse(metadataResponseService),
-  );
-}
-
 export function metadataResponseServiceFromJSON(
   jsonString: string,
 ): SafeParseResult<MetadataResponseService, SDKValidationError> {
@@ -205,51 +160,6 @@ export const MetadataResponseCarrier$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type MetadataResponseCarrier$Outbound = {
-  carrier_id?: number | undefined;
-  carrier_name?: string | undefined;
-  services?: Array<MetadataResponseService$Outbound> | undefined;
-};
-
-/** @internal */
-export const MetadataResponseCarrier$outboundSchema: z.ZodType<
-  MetadataResponseCarrier$Outbound,
-  z.ZodTypeDef,
-  MetadataResponseCarrier
-> = z.object({
-  carrierId: z.number().int().optional(),
-  carrierName: z.string().optional(),
-  services: z.array(z.lazy(() => MetadataResponseService$outboundSchema))
-    .optional(),
-}).transform((v) => {
-  return remap$(v, {
-    carrierId: "carrier_id",
-    carrierName: "carrier_name",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace MetadataResponseCarrier$ {
-  /** @deprecated use `MetadataResponseCarrier$inboundSchema` instead. */
-  export const inboundSchema = MetadataResponseCarrier$inboundSchema;
-  /** @deprecated use `MetadataResponseCarrier$outboundSchema` instead. */
-  export const outboundSchema = MetadataResponseCarrier$outboundSchema;
-  /** @deprecated use `MetadataResponseCarrier$Outbound` instead. */
-  export type Outbound = MetadataResponseCarrier$Outbound;
-}
-
-export function metadataResponseCarrierToJSON(
-  metadataResponseCarrier: MetadataResponseCarrier,
-): string {
-  return JSON.stringify(
-    MetadataResponseCarrier$outboundSchema.parse(metadataResponseCarrier),
-  );
-}
-
 export function metadataResponseCarrierFromJSON(
   jsonString: string,
 ): SafeParseResult<MetadataResponseCarrier, SDKValidationError> {
@@ -271,44 +181,6 @@ export const Paper$inboundSchema: z.ZodType<Paper, z.ZodTypeDef, unknown> = z
       "paper_name": "paperName",
     });
   });
-
-/** @internal */
-export type Paper$Outbound = {
-  paper_id?: number | undefined;
-  paper_name?: string | undefined;
-};
-
-/** @internal */
-export const Paper$outboundSchema: z.ZodType<
-  Paper$Outbound,
-  z.ZodTypeDef,
-  Paper
-> = z.object({
-  paperId: z.number().int().optional(),
-  paperName: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    paperId: "paper_id",
-    paperName: "paper_name",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Paper$ {
-  /** @deprecated use `Paper$inboundSchema` instead. */
-  export const inboundSchema = Paper$inboundSchema;
-  /** @deprecated use `Paper$outboundSchema` instead. */
-  export const outboundSchema = Paper$outboundSchema;
-  /** @deprecated use `Paper$Outbound` instead. */
-  export type Outbound = Paper$Outbound;
-}
-
-export function paperToJSON(paper: Paper): string {
-  return JSON.stringify(Paper$outboundSchema.parse(paper));
-}
 
 export function paperFromJSON(
   jsonString: string,
@@ -337,47 +209,6 @@ export const Envelope$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type Envelope$Outbound = {
-  envelope_id?: number | undefined;
-  envelope_name?: string | undefined;
-  max_sheets?: number | undefined;
-};
-
-/** @internal */
-export const Envelope$outboundSchema: z.ZodType<
-  Envelope$Outbound,
-  z.ZodTypeDef,
-  Envelope
-> = z.object({
-  envelopeId: z.number().int().optional(),
-  envelopeName: z.string().optional(),
-  maxSheets: z.number().int().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    envelopeId: "envelope_id",
-    envelopeName: "envelope_name",
-    maxSheets: "max_sheets",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Envelope$ {
-  /** @deprecated use `Envelope$inboundSchema` instead. */
-  export const inboundSchema = Envelope$inboundSchema;
-  /** @deprecated use `Envelope$outboundSchema` instead. */
-  export const outboundSchema = Envelope$outboundSchema;
-  /** @deprecated use `Envelope$Outbound` instead. */
-  export type Outbound = Envelope$Outbound;
-}
-
-export function envelopeToJSON(envelope: Envelope): string {
-  return JSON.stringify(Envelope$outboundSchema.parse(envelope));
-}
-
 export function envelopeFromJSON(
   jsonString: string,
 ): SafeParseResult<Envelope, SDKValidationError> {
@@ -404,50 +235,6 @@ export const EnvelopeTemplate$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type EnvelopeTemplate$Outbound = {
-  envelope_group_name?: string | undefined;
-  envelope_group_description?: string | undefined;
-  envelope?: Array<Envelope$Outbound> | undefined;
-};
-
-/** @internal */
-export const EnvelopeTemplate$outboundSchema: z.ZodType<
-  EnvelopeTemplate$Outbound,
-  z.ZodTypeDef,
-  EnvelopeTemplate
-> = z.object({
-  envelopeGroupName: z.string().optional(),
-  envelopeGroupDescription: z.string().optional(),
-  envelope: z.array(z.lazy(() => Envelope$outboundSchema)).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    envelopeGroupName: "envelope_group_name",
-    envelopeGroupDescription: "envelope_group_description",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace EnvelopeTemplate$ {
-  /** @deprecated use `EnvelopeTemplate$inboundSchema` instead. */
-  export const inboundSchema = EnvelopeTemplate$inboundSchema;
-  /** @deprecated use `EnvelopeTemplate$outboundSchema` instead. */
-  export const outboundSchema = EnvelopeTemplate$outboundSchema;
-  /** @deprecated use `EnvelopeTemplate$Outbound` instead. */
-  export type Outbound = EnvelopeTemplate$Outbound;
-}
-
-export function envelopeTemplateToJSON(
-  envelopeTemplate: EnvelopeTemplate,
-): string {
-  return JSON.stringify(
-    EnvelopeTemplate$outboundSchema.parse(envelopeTemplate),
-  );
-}
-
 export function envelopeTemplateFromJSON(
   jsonString: string,
 ): SafeParseResult<EnvelopeTemplate, SDKValidationError> {
@@ -468,41 +255,6 @@ export const StatusCode$inboundSchema: z.ZodType<
   name: z.string().optional(),
   description: z.string().optional(),
 });
-
-/** @internal */
-export type StatusCode$Outbound = {
-  code?: string | undefined;
-  name?: string | undefined;
-  description?: string | undefined;
-};
-
-/** @internal */
-export const StatusCode$outboundSchema: z.ZodType<
-  StatusCode$Outbound,
-  z.ZodTypeDef,
-  StatusCode
-> = z.object({
-  code: z.string().optional(),
-  name: z.string().optional(),
-  description: z.string().optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace StatusCode$ {
-  /** @deprecated use `StatusCode$inboundSchema` instead. */
-  export const inboundSchema = StatusCode$inboundSchema;
-  /** @deprecated use `StatusCode$outboundSchema` instead. */
-  export const outboundSchema = StatusCode$outboundSchema;
-  /** @deprecated use `StatusCode$Outbound` instead. */
-  export type Outbound = StatusCode$Outbound;
-}
-
-export function statusCodeToJSON(statusCode: StatusCode): string {
-  return JSON.stringify(StatusCode$outboundSchema.parse(statusCode));
-}
 
 export function statusCodeFromJSON(
   jsonString: string,
@@ -535,57 +287,6 @@ export const MetadataResponse$inboundSchema: z.ZodType<
     "status_codes": "statusCodes",
   });
 });
-
-/** @internal */
-export type MetadataResponse$Outbound = {
-  carriers?: Array<MetadataResponseCarrier$Outbound> | null | undefined;
-  papers?: Array<Paper$Outbound> | null | undefined;
-  envelope_templates?: Array<EnvelopeTemplate$Outbound> | null | undefined;
-  status_codes?: Array<StatusCode$Outbound> | null | undefined;
-};
-
-/** @internal */
-export const MetadataResponse$outboundSchema: z.ZodType<
-  MetadataResponse$Outbound,
-  z.ZodTypeDef,
-  MetadataResponse
-> = z.object({
-  carriers: z.nullable(
-    z.array(z.lazy(() => MetadataResponseCarrier$outboundSchema)),
-  ).optional(),
-  papers: z.nullable(z.array(z.lazy(() => Paper$outboundSchema))).optional(),
-  envelopeTemplates: z.nullable(
-    z.array(z.lazy(() => EnvelopeTemplate$outboundSchema)),
-  ).optional(),
-  statusCodes: z.nullable(z.array(z.lazy(() => StatusCode$outboundSchema)))
-    .optional(),
-}).transform((v) => {
-  return remap$(v, {
-    envelopeTemplates: "envelope_templates",
-    statusCodes: "status_codes",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace MetadataResponse$ {
-  /** @deprecated use `MetadataResponse$inboundSchema` instead. */
-  export const inboundSchema = MetadataResponse$inboundSchema;
-  /** @deprecated use `MetadataResponse$outboundSchema` instead. */
-  export const outboundSchema = MetadataResponse$outboundSchema;
-  /** @deprecated use `MetadataResponse$Outbound` instead. */
-  export type Outbound = MetadataResponse$Outbound;
-}
-
-export function metadataResponseToJSON(
-  metadataResponse: MetadataResponse,
-): string {
-  return JSON.stringify(
-    MetadataResponse$outboundSchema.parse(metadataResponse),
-  );
-}
 
 export function metadataResponseFromJSON(
   jsonString: string,

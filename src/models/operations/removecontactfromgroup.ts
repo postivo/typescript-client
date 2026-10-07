@@ -22,22 +22,8 @@ export type RemoveContactFromGroupRequest = {
 
 export type RemoveContactFromGroupResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const RemoveContactFromGroupRequest$inboundSchema: z.ZodType<
-  RemoveContactFromGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  group_id: z.number().int(),
-}).transform((v) => {
-  return remap$(v, {
-    "group_id": "groupId",
-  });
-});
 
 /** @internal */
 export type RemoveContactFromGroupRequest$Outbound = {
@@ -59,19 +45,6 @@ export const RemoveContactFromGroupRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RemoveContactFromGroupRequest$ {
-  /** @deprecated use `RemoveContactFromGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = RemoveContactFromGroupRequest$inboundSchema;
-  /** @deprecated use `RemoveContactFromGroupRequest$outboundSchema` instead. */
-  export const outboundSchema = RemoveContactFromGroupRequest$outboundSchema;
-  /** @deprecated use `RemoveContactFromGroupRequest$Outbound` instead. */
-  export type Outbound = RemoveContactFromGroupRequest$Outbound;
-}
-
 export function removeContactFromGroupRequestToJSON(
   removeContactFromGroupRequest: RemoveContactFromGroupRequest,
 ): string {
@@ -82,74 +55,20 @@ export function removeContactFromGroupRequestToJSON(
   );
 }
 
-export function removeContactFromGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<RemoveContactFromGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => RemoveContactFromGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RemoveContactFromGroupRequest' from JSON`,
-  );
-}
-
 /** @internal */
 export const RemoveContactFromGroupResponse$inboundSchema: z.ZodType<
   RemoveContactFromGroupResponse,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type RemoveContactFromGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const RemoveContactFromGroupResponse$outboundSchema: z.ZodType<
-  RemoveContactFromGroupResponse$Outbound,
-  z.ZodTypeDef,
-  RemoveContactFromGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RemoveContactFromGroupResponse$ {
-  /** @deprecated use `RemoveContactFromGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = RemoveContactFromGroupResponse$inboundSchema;
-  /** @deprecated use `RemoveContactFromGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = RemoveContactFromGroupResponse$outboundSchema;
-  /** @deprecated use `RemoveContactFromGroupResponse$Outbound` instead. */
-  export type Outbound = RemoveContactFromGroupResponse$Outbound;
-}
-
-export function removeContactFromGroupResponseToJSON(
-  removeContactFromGroupResponse: RemoveContactFromGroupResponse,
-): string {
-  return JSON.stringify(
-    RemoveContactFromGroupResponse$outboundSchema.parse(
-      removeContactFromGroupResponse,
-    ),
-  );
-}
 
 export function removeContactFromGroupResponseFromJSON(
   jsonString: string,

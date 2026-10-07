@@ -43,7 +43,7 @@ export type ContactResponse = {
   /**
    * Country code in ISO 3166-1 alpha-2 format. Default: "PL". Value is automatically uppercased. Full list: https://www.iso.org/iso-3166-country-codes.html
    */
-  country?: string | null | undefined;
+  country: string | null;
   /**
    * Phone number (E.164 format recommended).
    */
@@ -95,72 +95,6 @@ export const ContactResponse$inboundSchema: z.ZodType<
     "group_ids": "groupIds",
   });
 });
-
-/** @internal */
-export type ContactResponse$Outbound = {
-  name: string | null;
-  name2?: string | null | undefined;
-  address: string | null;
-  home_number?: string | null | undefined;
-  flat_number?: string | null | undefined;
-  post_code: string | null;
-  city: string | null;
-  country: string | null;
-  phone_number?: string | null | undefined;
-  ext_id?: string | null | undefined;
-  group_ids?: Array<number> | null | undefined;
-  id: number;
-  inherited?: boolean | undefined;
-};
-
-/** @internal */
-export const ContactResponse$outboundSchema: z.ZodType<
-  ContactResponse$Outbound,
-  z.ZodTypeDef,
-  ContactResponse
-> = z.object({
-  name: z.nullable(z.string()),
-  name2: z.nullable(z.string()).optional(),
-  address: z.nullable(z.string()),
-  homeNumber: z.nullable(z.string()).optional(),
-  flatNumber: z.nullable(z.string()).optional(),
-  postCode: z.nullable(z.string()),
-  city: z.nullable(z.string()),
-  country: z.nullable(z.string().default("PL")),
-  phoneNumber: z.nullable(z.string()).optional(),
-  extId: z.nullable(z.string()).optional(),
-  groupIds: z.nullable(z.array(z.number().int())).optional(),
-  id: z.number().int(),
-  inherited: z.boolean().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    homeNumber: "home_number",
-    flatNumber: "flat_number",
-    postCode: "post_code",
-    phoneNumber: "phone_number",
-    extId: "ext_id",
-    groupIds: "group_ids",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ContactResponse$ {
-  /** @deprecated use `ContactResponse$inboundSchema` instead. */
-  export const inboundSchema = ContactResponse$inboundSchema;
-  /** @deprecated use `ContactResponse$outboundSchema` instead. */
-  export const outboundSchema = ContactResponse$outboundSchema;
-  /** @deprecated use `ContactResponse$Outbound` instead. */
-  export type Outbound = ContactResponse$Outbound;
-}
-
-export function contactResponseToJSON(
-  contactResponse: ContactResponse,
-): string {
-  return JSON.stringify(ContactResponse$outboundSchema.parse(contactResponse));
-}
 
 export function contactResponseFromJSON(
   jsonString: string,

@@ -22,23 +22,8 @@ export type RemoveContactByExtIdToGroupRequest = {
 
 export type RemoveContactByExtIdToGroupResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const RemoveContactByExtIdToGroupRequest$inboundSchema: z.ZodType<
-  RemoveContactByExtIdToGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-  group_id: z.number().int(),
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-    "group_id": "groupId",
-  });
-});
 
 /** @internal */
 export type RemoveContactByExtIdToGroupRequest$Outbound = {
@@ -61,20 +46,6 @@ export const RemoveContactByExtIdToGroupRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RemoveContactByExtIdToGroupRequest$ {
-  /** @deprecated use `RemoveContactByExtIdToGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = RemoveContactByExtIdToGroupRequest$inboundSchema;
-  /** @deprecated use `RemoveContactByExtIdToGroupRequest$outboundSchema` instead. */
-  export const outboundSchema =
-    RemoveContactByExtIdToGroupRequest$outboundSchema;
-  /** @deprecated use `RemoveContactByExtIdToGroupRequest$Outbound` instead. */
-  export type Outbound = RemoveContactByExtIdToGroupRequest$Outbound;
-}
-
 export function removeContactByExtIdToGroupRequestToJSON(
   removeContactByExtIdToGroupRequest: RemoveContactByExtIdToGroupRequest,
 ): string {
@@ -85,77 +56,20 @@ export function removeContactByExtIdToGroupRequestToJSON(
   );
 }
 
-export function removeContactByExtIdToGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<RemoveContactByExtIdToGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      RemoveContactByExtIdToGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RemoveContactByExtIdToGroupRequest' from JSON`,
-  );
-}
-
 /** @internal */
 export const RemoveContactByExtIdToGroupResponse$inboundSchema: z.ZodType<
   RemoveContactByExtIdToGroupResponse,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type RemoveContactByExtIdToGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const RemoveContactByExtIdToGroupResponse$outboundSchema: z.ZodType<
-  RemoveContactByExtIdToGroupResponse$Outbound,
-  z.ZodTypeDef,
-  RemoveContactByExtIdToGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RemoveContactByExtIdToGroupResponse$ {
-  /** @deprecated use `RemoveContactByExtIdToGroupResponse$inboundSchema` instead. */
-  export const inboundSchema =
-    RemoveContactByExtIdToGroupResponse$inboundSchema;
-  /** @deprecated use `RemoveContactByExtIdToGroupResponse$outboundSchema` instead. */
-  export const outboundSchema =
-    RemoveContactByExtIdToGroupResponse$outboundSchema;
-  /** @deprecated use `RemoveContactByExtIdToGroupResponse$Outbound` instead. */
-  export type Outbound = RemoveContactByExtIdToGroupResponse$Outbound;
-}
-
-export function removeContactByExtIdToGroupResponseToJSON(
-  removeContactByExtIdToGroupResponse: RemoveContactByExtIdToGroupResponse,
-): string {
-  return JSON.stringify(
-    RemoveContactByExtIdToGroupResponse$outboundSchema.parse(
-      removeContactByExtIdToGroupResponse,
-    ),
-  );
-}
 
 export function removeContactByExtIdToGroupResponseFromJSON(
   jsonString: string,

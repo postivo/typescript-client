@@ -29,21 +29,8 @@ export type VerifySenderRequest = {
 
 export type VerifySenderResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const VerifySenderRequestBody$inboundSchema: z.ZodType<
-  VerifySenderRequestBody,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  verification_code: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "verification_code": "verificationCode",
-  });
-});
 
 /** @internal */
 export type VerifySenderRequestBody$Outbound = {
@@ -63,19 +50,6 @@ export const VerifySenderRequestBody$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace VerifySenderRequestBody$ {
-  /** @deprecated use `VerifySenderRequestBody$inboundSchema` instead. */
-  export const inboundSchema = VerifySenderRequestBody$inboundSchema;
-  /** @deprecated use `VerifySenderRequestBody$outboundSchema` instead. */
-  export const outboundSchema = VerifySenderRequestBody$outboundSchema;
-  /** @deprecated use `VerifySenderRequestBody$Outbound` instead. */
-  export type Outbound = VerifySenderRequestBody$Outbound;
-}
-
 export function verifySenderRequestBodyToJSON(
   verifySenderRequestBody: VerifySenderRequestBody,
 ): string {
@@ -83,30 +57,6 @@ export function verifySenderRequestBodyToJSON(
     VerifySenderRequestBody$outboundSchema.parse(verifySenderRequestBody),
   );
 }
-
-export function verifySenderRequestBodyFromJSON(
-  jsonString: string,
-): SafeParseResult<VerifySenderRequestBody, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => VerifySenderRequestBody$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'VerifySenderRequestBody' from JSON`,
-  );
-}
-
-/** @internal */
-export const VerifySenderRequest$inboundSchema: z.ZodType<
-  VerifySenderRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  RequestBody: z.lazy(() => VerifySenderRequestBody$inboundSchema),
-}).transform((v) => {
-  return remap$(v, {
-    "RequestBody": "requestBody",
-  });
-});
 
 /** @internal */
 export type VerifySenderRequest$Outbound = {
@@ -128,34 +78,11 @@ export const VerifySenderRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace VerifySenderRequest$ {
-  /** @deprecated use `VerifySenderRequest$inboundSchema` instead. */
-  export const inboundSchema = VerifySenderRequest$inboundSchema;
-  /** @deprecated use `VerifySenderRequest$outboundSchema` instead. */
-  export const outboundSchema = VerifySenderRequest$outboundSchema;
-  /** @deprecated use `VerifySenderRequest$Outbound` instead. */
-  export type Outbound = VerifySenderRequest$Outbound;
-}
-
 export function verifySenderRequestToJSON(
   verifySenderRequest: VerifySenderRequest,
 ): string {
   return JSON.stringify(
     VerifySenderRequest$outboundSchema.parse(verifySenderRequest),
-  );
-}
-
-export function verifySenderRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<VerifySenderRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => VerifySenderRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'VerifySenderRequest' from JSON`,
   );
 }
 
@@ -165,56 +92,14 @@ export const VerifySenderResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type VerifySenderResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const VerifySenderResponse$outboundSchema: z.ZodType<
-  VerifySenderResponse$Outbound,
-  z.ZodTypeDef,
-  VerifySenderResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace VerifySenderResponse$ {
-  /** @deprecated use `VerifySenderResponse$inboundSchema` instead. */
-  export const inboundSchema = VerifySenderResponse$inboundSchema;
-  /** @deprecated use `VerifySenderResponse$outboundSchema` instead. */
-  export const outboundSchema = VerifySenderResponse$outboundSchema;
-  /** @deprecated use `VerifySenderResponse$Outbound` instead. */
-  export type Outbound = VerifySenderResponse$Outbound;
-}
-
-export function verifySenderResponseToJSON(
-  verifySenderResponse: VerifySenderResponse,
-): string {
-  return JSON.stringify(
-    VerifySenderResponse$outboundSchema.parse(verifySenderResponse),
-  );
-}
 
 export function verifySenderResponseFromJSON(
   jsonString: string,

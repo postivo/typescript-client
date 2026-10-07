@@ -22,22 +22,8 @@ export type AddContactToGroupRequest = {
 
 export type AddContactToGroupResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const AddContactToGroupRequest$inboundSchema: z.ZodType<
-  AddContactToGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  group_id: z.number().int(),
-}).transform((v) => {
-  return remap$(v, {
-    "group_id": "groupId",
-  });
-});
 
 /** @internal */
 export type AddContactToGroupRequest$Outbound = {
@@ -59,34 +45,11 @@ export const AddContactToGroupRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactToGroupRequest$ {
-  /** @deprecated use `AddContactToGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = AddContactToGroupRequest$inboundSchema;
-  /** @deprecated use `AddContactToGroupRequest$outboundSchema` instead. */
-  export const outboundSchema = AddContactToGroupRequest$outboundSchema;
-  /** @deprecated use `AddContactToGroupRequest$Outbound` instead. */
-  export type Outbound = AddContactToGroupRequest$Outbound;
-}
-
 export function addContactToGroupRequestToJSON(
   addContactToGroupRequest: AddContactToGroupRequest,
 ): string {
   return JSON.stringify(
     AddContactToGroupRequest$outboundSchema.parse(addContactToGroupRequest),
-  );
-}
-
-export function addContactToGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<AddContactToGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AddContactToGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddContactToGroupRequest' from JSON`,
   );
 }
 
@@ -96,56 +59,14 @@ export const AddContactToGroupResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type AddContactToGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const AddContactToGroupResponse$outboundSchema: z.ZodType<
-  AddContactToGroupResponse$Outbound,
-  z.ZodTypeDef,
-  AddContactToGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactToGroupResponse$ {
-  /** @deprecated use `AddContactToGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = AddContactToGroupResponse$inboundSchema;
-  /** @deprecated use `AddContactToGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = AddContactToGroupResponse$outboundSchema;
-  /** @deprecated use `AddContactToGroupResponse$Outbound` instead. */
-  export type Outbound = AddContactToGroupResponse$Outbound;
-}
-
-export function addContactToGroupResponseToJSON(
-  addContactToGroupResponse: AddContactToGroupResponse,
-): string {
-  return JSON.stringify(
-    AddContactToGroupResponse$outboundSchema.parse(addContactToGroupResponse),
-  );
-}
 
 export function addContactToGroupResponseFromJSON(
   jsonString: string,

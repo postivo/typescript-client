@@ -43,7 +43,7 @@ export type Recipient = {
   /**
    * Country code in ISO 3166-1 alpha-2 format. Default: "PL". Value is automatically uppercased. Full list: https://www.iso.org/iso-3166-country-codes.html
    */
-  country?: string | null | undefined;
+  country: string | null;
   /**
    * Phone number (E.164 format recommended).
    */
@@ -78,62 +78,6 @@ export const Recipient$inboundSchema: z.ZodType<
     "phone_number": "phoneNumber",
   });
 });
-
-/** @internal */
-export type Recipient$Outbound = {
-  name: string | null;
-  name2?: string | null | undefined;
-  address: string | null;
-  home_number?: string | null | undefined;
-  flat_number?: string | null | undefined;
-  post_code: string | null;
-  city: string | null;
-  country: string | null;
-  phone_number?: string | null | undefined;
-  postscript?: string | null | undefined;
-};
-
-/** @internal */
-export const Recipient$outboundSchema: z.ZodType<
-  Recipient$Outbound,
-  z.ZodTypeDef,
-  Recipient
-> = z.object({
-  name: z.nullable(z.string()),
-  name2: z.nullable(z.string()).optional(),
-  address: z.nullable(z.string()),
-  homeNumber: z.nullable(z.string()).optional(),
-  flatNumber: z.nullable(z.string()).optional(),
-  postCode: z.nullable(z.string()),
-  city: z.nullable(z.string()),
-  country: z.nullable(z.string().default("PL")),
-  phoneNumber: z.nullable(z.string()).optional(),
-  postscript: z.nullable(z.string()).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    homeNumber: "home_number",
-    flatNumber: "flat_number",
-    postCode: "post_code",
-    phoneNumber: "phone_number",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Recipient$ {
-  /** @deprecated use `Recipient$inboundSchema` instead. */
-  export const inboundSchema = Recipient$inboundSchema;
-  /** @deprecated use `Recipient$outboundSchema` instead. */
-  export const outboundSchema = Recipient$outboundSchema;
-  /** @deprecated use `Recipient$Outbound` instead. */
-  export type Outbound = Recipient$Outbound;
-}
-
-export function recipientToJSON(recipient: Recipient): string {
-  return JSON.stringify(Recipient$outboundSchema.parse(recipient));
-}
 
 export function recipientFromJSON(
   jsonString: string,

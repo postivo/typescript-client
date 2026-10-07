@@ -22,42 +22,6 @@ export const ListMetadataResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ListMetadataResponse$Outbound =
-  | models.MetadataResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ListMetadataResponse$outboundSchema: z.ZodType<
-  ListMetadataResponse$Outbound,
-  z.ZodTypeDef,
-  ListMetadataResponse
-> = z.union([
-  models.MetadataResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListMetadataResponse$ {
-  /** @deprecated use `ListMetadataResponse$inboundSchema` instead. */
-  export const inboundSchema = ListMetadataResponse$inboundSchema;
-  /** @deprecated use `ListMetadataResponse$outboundSchema` instead. */
-  export const outboundSchema = ListMetadataResponse$outboundSchema;
-  /** @deprecated use `ListMetadataResponse$Outbound` instead. */
-  export type Outbound = ListMetadataResponse$Outbound;
-}
-
-export function listMetadataResponseToJSON(
-  listMetadataResponse: ListMetadataResponse,
-): string {
-  return JSON.stringify(
-    ListMetadataResponse$outboundSchema.parse(listMetadataResponse),
-  );
-}
-
 export function listMetadataResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<ListMetadataResponse, SDKValidationError> {

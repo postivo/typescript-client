@@ -22,44 +22,6 @@ export const ListPredefinedConfigsResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ListPredefinedConfigsResponse$Outbound =
-  | Array<models.PredefinedConfig$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ListPredefinedConfigsResponse$outboundSchema: z.ZodType<
-  ListPredefinedConfigsResponse$Outbound,
-  z.ZodTypeDef,
-  ListPredefinedConfigsResponse
-> = z.union([
-  z.array(models.PredefinedConfig$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListPredefinedConfigsResponse$ {
-  /** @deprecated use `ListPredefinedConfigsResponse$inboundSchema` instead. */
-  export const inboundSchema = ListPredefinedConfigsResponse$inboundSchema;
-  /** @deprecated use `ListPredefinedConfigsResponse$outboundSchema` instead. */
-  export const outboundSchema = ListPredefinedConfigsResponse$outboundSchema;
-  /** @deprecated use `ListPredefinedConfigsResponse$Outbound` instead. */
-  export type Outbound = ListPredefinedConfigsResponse$Outbound;
-}
-
-export function listPredefinedConfigsResponseToJSON(
-  listPredefinedConfigsResponse: ListPredefinedConfigsResponse,
-): string {
-  return JSON.stringify(
-    ListPredefinedConfigsResponse$outboundSchema.parse(
-      listPredefinedConfigsResponse,
-    ),
-  );
-}
-
 export function listPredefinedConfigsResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<ListPredefinedConfigsResponse, SDKValidationError> {

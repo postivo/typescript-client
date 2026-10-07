@@ -21,19 +21,6 @@ export type GetSubaccountDetailsResponse =
   | models.ErrorResponse;
 
 /** @internal */
-export const GetSubaccountDetailsRequest$inboundSchema: z.ZodType<
-  GetSubaccountDetailsRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  user_login: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "user_login": "userLogin",
-  });
-});
-
-/** @internal */
 export type GetSubaccountDetailsRequest$Outbound = {
   user_login: string;
 };
@@ -51,19 +38,6 @@ export const GetSubaccountDetailsRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetSubaccountDetailsRequest$ {
-  /** @deprecated use `GetSubaccountDetailsRequest$inboundSchema` instead. */
-  export const inboundSchema = GetSubaccountDetailsRequest$inboundSchema;
-  /** @deprecated use `GetSubaccountDetailsRequest$outboundSchema` instead. */
-  export const outboundSchema = GetSubaccountDetailsRequest$outboundSchema;
-  /** @deprecated use `GetSubaccountDetailsRequest$Outbound` instead. */
-  export type Outbound = GetSubaccountDetailsRequest$Outbound;
-}
-
 export function getSubaccountDetailsRequestToJSON(
   getSubaccountDetailsRequest: GetSubaccountDetailsRequest,
 ): string {
@@ -71,16 +45,6 @@ export function getSubaccountDetailsRequestToJSON(
     GetSubaccountDetailsRequest$outboundSchema.parse(
       getSubaccountDetailsRequest,
     ),
-  );
-}
-
-export function getSubaccountDetailsRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<GetSubaccountDetailsRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetSubaccountDetailsRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetSubaccountDetailsRequest' from JSON`,
   );
 }
 
@@ -93,44 +57,6 @@ export const GetSubaccountDetailsResponse$inboundSchema: z.ZodType<
   models.AccountResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type GetSubaccountDetailsResponse$Outbound =
-  | models.AccountResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetSubaccountDetailsResponse$outboundSchema: z.ZodType<
-  GetSubaccountDetailsResponse$Outbound,
-  z.ZodTypeDef,
-  GetSubaccountDetailsResponse
-> = z.union([
-  models.AccountResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetSubaccountDetailsResponse$ {
-  /** @deprecated use `GetSubaccountDetailsResponse$inboundSchema` instead. */
-  export const inboundSchema = GetSubaccountDetailsResponse$inboundSchema;
-  /** @deprecated use `GetSubaccountDetailsResponse$outboundSchema` instead. */
-  export const outboundSchema = GetSubaccountDetailsResponse$outboundSchema;
-  /** @deprecated use `GetSubaccountDetailsResponse$Outbound` instead. */
-  export type Outbound = GetSubaccountDetailsResponse$Outbound;
-}
-
-export function getSubaccountDetailsResponseToJSON(
-  getSubaccountDetailsResponse: GetSubaccountDetailsResponse,
-): string {
-  return JSON.stringify(
-    GetSubaccountDetailsResponse$outboundSchema.parse(
-      getSubaccountDetailsResponse,
-    ),
-  );
-}
 
 export function getSubaccountDetailsResponseFromJSON(
   jsonString: string,

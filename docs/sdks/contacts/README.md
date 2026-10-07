@@ -1,5 +1,4 @@
-# Contacts
-(*addressBook.contacts*)
+# AddressBook.Contacts
 
 ## Overview
 

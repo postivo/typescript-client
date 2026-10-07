@@ -3,24 +3,18 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   RecipientFromAddressBook,
-  RecipientFromAddressBook$inboundSchema,
   RecipientFromAddressBook$Outbound,
   RecipientFromAddressBook$outboundSchema,
 } from "./recipientfromaddressbook.js";
 import {
   RecipientFromAddressBookByExternalId,
-  RecipientFromAddressBookByExternalId$inboundSchema,
   RecipientFromAddressBookByExternalId$Outbound,
   RecipientFromAddressBookByExternalId$outboundSchema,
 } from "./recipientfromaddressbookbyexternalid.js";
 import {
   RecipientInline,
-  RecipientInline$inboundSchema,
   RecipientInline$Outbound,
   RecipientInline$outboundSchema,
 } from "./recipientinline.js";
@@ -32,17 +26,6 @@ export type Recipients =
   | RecipientInline
   | RecipientFromAddressBook
   | RecipientFromAddressBookByExternalId;
-
-/** @internal */
-export const Recipients$inboundSchema: z.ZodType<
-  Recipients,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  RecipientInline$inboundSchema,
-  RecipientFromAddressBook$inboundSchema,
-  RecipientFromAddressBookByExternalId$inboundSchema,
-]);
 
 /** @internal */
 export type Recipients$Outbound =
@@ -61,29 +44,6 @@ export const Recipients$outboundSchema: z.ZodType<
   RecipientFromAddressBookByExternalId$outboundSchema,
 ]);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Recipients$ {
-  /** @deprecated use `Recipients$inboundSchema` instead. */
-  export const inboundSchema = Recipients$inboundSchema;
-  /** @deprecated use `Recipients$outboundSchema` instead. */
-  export const outboundSchema = Recipients$outboundSchema;
-  /** @deprecated use `Recipients$Outbound` instead. */
-  export type Outbound = Recipients$Outbound;
-}
-
 export function recipientsToJSON(recipients: Recipients): string {
   return JSON.stringify(Recipients$outboundSchema.parse(recipients));
-}
-
-export function recipientsFromJSON(
-  jsonString: string,
-): SafeParseResult<Recipients, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Recipients$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Recipients' from JSON`,
-  );
 }

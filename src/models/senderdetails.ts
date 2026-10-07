@@ -6,12 +6,7 @@ import * as z from "zod/v3";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  Sender,
-  Sender$inboundSchema,
-  Sender$Outbound,
-  Sender$outboundSchema,
-} from "./sender.js";
+import { Sender, Sender$inboundSchema } from "./sender.js";
 
 /**
  * Extended sender details.
@@ -46,43 +41,6 @@ export const SenderDetails$inboundSchema: z.ZodType<
   active: z.boolean(),
   default: z.boolean(),
 });
-
-/** @internal */
-export type SenderDetails$Outbound = {
-  id?: number | undefined;
-  sender: Sender$Outbound;
-  active: boolean;
-  default: boolean;
-};
-
-/** @internal */
-export const SenderDetails$outboundSchema: z.ZodType<
-  SenderDetails$Outbound,
-  z.ZodTypeDef,
-  SenderDetails
-> = z.object({
-  id: z.number().int().optional(),
-  sender: Sender$outboundSchema,
-  active: z.boolean(),
-  default: z.boolean(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace SenderDetails$ {
-  /** @deprecated use `SenderDetails$inboundSchema` instead. */
-  export const inboundSchema = SenderDetails$inboundSchema;
-  /** @deprecated use `SenderDetails$outboundSchema` instead. */
-  export const outboundSchema = SenderDetails$outboundSchema;
-  /** @deprecated use `SenderDetails$Outbound` instead. */
-  export type Outbound = SenderDetails$Outbound;
-}
-
-export function senderDetailsToJSON(senderDetails: SenderDetails): string {
-  return JSON.stringify(SenderDetails$outboundSchema.parse(senderDetails));
-}
 
 export function senderDetailsFromJSON(
   jsonString: string,

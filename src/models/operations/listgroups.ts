@@ -22,42 +22,6 @@ export const ListGroupsResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ListGroupsResponse$Outbound =
-  | Array<models.GroupResponse$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ListGroupsResponse$outboundSchema: z.ZodType<
-  ListGroupsResponse$Outbound,
-  z.ZodTypeDef,
-  ListGroupsResponse
-> = z.union([
-  z.array(models.GroupResponse$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListGroupsResponse$ {
-  /** @deprecated use `ListGroupsResponse$inboundSchema` instead. */
-  export const inboundSchema = ListGroupsResponse$inboundSchema;
-  /** @deprecated use `ListGroupsResponse$outboundSchema` instead. */
-  export const outboundSchema = ListGroupsResponse$outboundSchema;
-  /** @deprecated use `ListGroupsResponse$Outbound` instead. */
-  export type Outbound = ListGroupsResponse$Outbound;
-}
-
-export function listGroupsResponseToJSON(
-  listGroupsResponse: ListGroupsResponse,
-): string {
-  return JSON.stringify(
-    ListGroupsResponse$outboundSchema.parse(listGroupsResponse),
-  );
-}
-
 export function listGroupsResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<ListGroupsResponse, SDKValidationError> {

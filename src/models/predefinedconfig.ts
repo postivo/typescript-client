@@ -77,67 +77,6 @@ export const PredefinedConfig$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type PredefinedConfig$Outbound = {
-  id?: number | undefined;
-  name?: string | undefined;
-  paper_name?: string | undefined;
-  color_print?: boolean | undefined;
-  duplex_print?: boolean | undefined;
-  envelope_name?: string | undefined;
-  envelope_size?: string | undefined;
-  envelope_group_name?: string | undefined;
-  envelope_color_print?: boolean | undefined;
-};
-
-/** @internal */
-export const PredefinedConfig$outboundSchema: z.ZodType<
-  PredefinedConfig$Outbound,
-  z.ZodTypeDef,
-  PredefinedConfig
-> = z.object({
-  id: z.number().int().optional(),
-  name: z.string().optional(),
-  paperName: z.string().optional(),
-  colorPrint: z.boolean().optional(),
-  duplexPrint: z.boolean().optional(),
-  envelopeName: z.string().optional(),
-  envelopeSize: z.string().optional(),
-  envelopeGroupName: z.string().optional(),
-  envelopeColorPrint: z.boolean().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    paperName: "paper_name",
-    colorPrint: "color_print",
-    duplexPrint: "duplex_print",
-    envelopeName: "envelope_name",
-    envelopeSize: "envelope_size",
-    envelopeGroupName: "envelope_group_name",
-    envelopeColorPrint: "envelope_color_print",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace PredefinedConfig$ {
-  /** @deprecated use `PredefinedConfig$inboundSchema` instead. */
-  export const inboundSchema = PredefinedConfig$inboundSchema;
-  /** @deprecated use `PredefinedConfig$outboundSchema` instead. */
-  export const outboundSchema = PredefinedConfig$outboundSchema;
-  /** @deprecated use `PredefinedConfig$Outbound` instead. */
-  export type Outbound = PredefinedConfig$Outbound;
-}
-
-export function predefinedConfigToJSON(
-  predefinedConfig: PredefinedConfig,
-): string {
-  return JSON.stringify(
-    PredefinedConfig$outboundSchema.parse(predefinedConfig),
-  );
-}
-
 export function predefinedConfigFromJSON(
   jsonString: string,
 ): SafeParseResult<PredefinedConfig, SDKValidationError> {

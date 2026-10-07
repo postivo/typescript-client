@@ -4,9 +4,6 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * PDF document payload.
@@ -21,21 +18,6 @@ export type DocumentPdf = {
    */
   fileName?: string | null | undefined;
 };
-
-/** @internal */
-export const DocumentPdf$inboundSchema: z.ZodType<
-  DocumentPdf,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  file_stream: z.string(),
-  file_name: z.nullable(z.string()).default(null),
-}).transform((v) => {
-  return remap$(v, {
-    "file_stream": "fileStream",
-    "file_name": "fileName",
-  });
-});
 
 /** @internal */
 export type DocumentPdf$Outbound = {
@@ -58,29 +40,6 @@ export const DocumentPdf$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DocumentPdf$ {
-  /** @deprecated use `DocumentPdf$inboundSchema` instead. */
-  export const inboundSchema = DocumentPdf$inboundSchema;
-  /** @deprecated use `DocumentPdf$outboundSchema` instead. */
-  export const outboundSchema = DocumentPdf$outboundSchema;
-  /** @deprecated use `DocumentPdf$Outbound` instead. */
-  export type Outbound = DocumentPdf$Outbound;
-}
-
 export function documentPdfToJSON(documentPdf: DocumentPdf): string {
   return JSON.stringify(DocumentPdf$outboundSchema.parse(documentPdf));
-}
-
-export function documentPdfFromJSON(
-  jsonString: string,
-): SafeParseResult<DocumentPdf, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DocumentPdf$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DocumentPdf' from JSON`,
-  );
 }

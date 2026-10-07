@@ -4,19 +4,14 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import {
   Documents,
-  Documents$inboundSchema,
   Documents$Outbound,
   Documents$outboundSchema,
 } from "./documents.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   Recipients,
-  Recipients$inboundSchema,
   Recipients$Outbound,
   Recipients$outboundSchema,
 } from "./recipients.js";
@@ -142,16 +137,6 @@ export type Shipment = {
 };
 
 /** @internal */
-export const ShipmentRecipients$inboundSchema: z.ZodType<
-  ShipmentRecipients,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  Recipients$inboundSchema,
-  z.array(z.lazy(() => Recipients$inboundSchema)),
-]);
-
-/** @internal */
 export type ShipmentRecipients$Outbound =
   | Recipients$Outbound
   | Array<Recipients$Outbound>;
@@ -166,19 +151,6 @@ export const ShipmentRecipients$outboundSchema: z.ZodType<
   z.array(z.lazy(() => Recipients$outboundSchema)),
 ]);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentRecipients$ {
-  /** @deprecated use `ShipmentRecipients$inboundSchema` instead. */
-  export const inboundSchema = ShipmentRecipients$inboundSchema;
-  /** @deprecated use `ShipmentRecipients$outboundSchema` instead. */
-  export const outboundSchema = ShipmentRecipients$outboundSchema;
-  /** @deprecated use `ShipmentRecipients$Outbound` instead. */
-  export type Outbound = ShipmentRecipients$Outbound;
-}
-
 export function shipmentRecipientsToJSON(
   shipmentRecipients: ShipmentRecipients,
 ): string {
@@ -186,26 +158,6 @@ export function shipmentRecipientsToJSON(
     ShipmentRecipients$outboundSchema.parse(shipmentRecipients),
   );
 }
-
-export function shipmentRecipientsFromJSON(
-  jsonString: string,
-): SafeParseResult<ShipmentRecipients, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ShipmentRecipients$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ShipmentRecipients' from JSON`,
-  );
-}
-
-/** @internal */
-export const ShipmentDocuments$inboundSchema: z.ZodType<
-  ShipmentDocuments,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  Documents$inboundSchema,
-  z.array(z.lazy(() => Documents$inboundSchema)),
-]);
 
 /** @internal */
 export type ShipmentDocuments$Outbound =
@@ -222,19 +174,6 @@ export const ShipmentDocuments$outboundSchema: z.ZodType<
   z.array(z.lazy(() => Documents$outboundSchema)),
 ]);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentDocuments$ {
-  /** @deprecated use `ShipmentDocuments$inboundSchema` instead. */
-  export const inboundSchema = ShipmentDocuments$inboundSchema;
-  /** @deprecated use `ShipmentDocuments$outboundSchema` instead. */
-  export const outboundSchema = ShipmentDocuments$outboundSchema;
-  /** @deprecated use `ShipmentDocuments$Outbound` instead. */
-  export type Outbound = ShipmentDocuments$Outbound;
-}
-
 export function shipmentDocumentsToJSON(
   shipmentDocuments: ShipmentDocuments,
 ): string {
@@ -242,41 +181,6 @@ export function shipmentDocumentsToJSON(
     ShipmentDocuments$outboundSchema.parse(shipmentDocuments),
   );
 }
-
-export function shipmentDocumentsFromJSON(
-  jsonString: string,
-): SafeParseResult<ShipmentDocuments, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ShipmentDocuments$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ShipmentDocuments' from JSON`,
-  );
-}
-
-/** @internal */
-export const InlineConfig$inboundSchema: z.ZodType<
-  InlineConfig,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  carrier_id: z.number().int(),
-  service_id: z.number().int(),
-  paper_id: z.number().int().optional(),
-  color_print: z.boolean().optional(),
-  duplex_print: z.boolean().optional(),
-  envelope_id: z.number().int().optional(),
-  envelope_color_print: z.boolean().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "carrier_id": "carrierId",
-    "service_id": "serviceId",
-    "paper_id": "paperId",
-    "color_print": "colorPrint",
-    "duplex_print": "duplexPrint",
-    "envelope_id": "envelopeId",
-    "envelope_color_print": "envelopeColorPrint",
-  });
-});
 
 /** @internal */
 export type InlineConfig$Outbound = {
@@ -314,39 +218,9 @@ export const InlineConfig$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace InlineConfig$ {
-  /** @deprecated use `InlineConfig$inboundSchema` instead. */
-  export const inboundSchema = InlineConfig$inboundSchema;
-  /** @deprecated use `InlineConfig$outboundSchema` instead. */
-  export const outboundSchema = InlineConfig$outboundSchema;
-  /** @deprecated use `InlineConfig$Outbound` instead. */
-  export type Outbound = InlineConfig$Outbound;
-}
-
 export function inlineConfigToJSON(inlineConfig: InlineConfig): string {
   return JSON.stringify(InlineConfig$outboundSchema.parse(inlineConfig));
 }
-
-export function inlineConfigFromJSON(
-  jsonString: string,
-): SafeParseResult<InlineConfig, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => InlineConfig$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'InlineConfig' from JSON`,
-  );
-}
-
-/** @internal */
-export const InlineConfigUnion$inboundSchema: z.ZodType<
-  InlineConfigUnion,
-  z.ZodTypeDef,
-  unknown
-> = z.lazy(() => InlineConfig$inboundSchema);
 
 /** @internal */
 export type InlineConfigUnion$Outbound = InlineConfig$Outbound;
@@ -358,19 +232,6 @@ export const InlineConfigUnion$outboundSchema: z.ZodType<
   InlineConfigUnion
 > = z.lazy(() => InlineConfig$outboundSchema);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace InlineConfigUnion$ {
-  /** @deprecated use `InlineConfigUnion$inboundSchema` instead. */
-  export const inboundSchema = InlineConfigUnion$inboundSchema;
-  /** @deprecated use `InlineConfigUnion$outboundSchema` instead. */
-  export const outboundSchema = InlineConfigUnion$outboundSchema;
-  /** @deprecated use `InlineConfigUnion$Outbound` instead. */
-  export type Outbound = InlineConfigUnion$Outbound;
-}
-
 export function inlineConfigUnionToJSON(
   inlineConfigUnion: InlineConfigUnion,
 ): string {
@@ -378,30 +239,6 @@ export function inlineConfigUnionToJSON(
     InlineConfigUnion$outboundSchema.parse(inlineConfigUnion),
   );
 }
-
-export function inlineConfigUnionFromJSON(
-  jsonString: string,
-): SafeParseResult<InlineConfigUnion, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => InlineConfigUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'InlineConfigUnion' from JSON`,
-  );
-}
-
-/** @internal */
-export const Callback$inboundSchema: z.ZodType<
-  Callback,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  url: z.string(),
-  user_token: z.nullable(z.string()).default(null),
-}).transform((v) => {
-  return remap$(v, {
-    "user_token": "userToken",
-  });
-});
 
 /** @internal */
 export type Callback$Outbound = {
@@ -423,39 +260,9 @@ export const Callback$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Callback$ {
-  /** @deprecated use `Callback$inboundSchema` instead. */
-  export const inboundSchema = Callback$inboundSchema;
-  /** @deprecated use `Callback$outboundSchema` instead. */
-  export const outboundSchema = Callback$outboundSchema;
-  /** @deprecated use `Callback$Outbound` instead. */
-  export type Outbound = Callback$Outbound;
-}
-
 export function callbackToJSON(callback: Callback): string {
   return JSON.stringify(Callback$outboundSchema.parse(callback));
 }
-
-export function callbackFromJSON(
-  jsonString: string,
-): SafeParseResult<Callback, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Callback$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Callback' from JSON`,
-  );
-}
-
-/** @internal */
-export const CallbackUnion$inboundSchema: z.ZodType<
-  CallbackUnion,
-  z.ZodTypeDef,
-  unknown
-> = z.lazy(() => Callback$inboundSchema);
 
 /** @internal */
 export type CallbackUnion$Outbound = Callback$Outbound;
@@ -467,46 +274,9 @@ export const CallbackUnion$outboundSchema: z.ZodType<
   CallbackUnion
 > = z.lazy(() => Callback$outboundSchema);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CallbackUnion$ {
-  /** @deprecated use `CallbackUnion$inboundSchema` instead. */
-  export const inboundSchema = CallbackUnion$inboundSchema;
-  /** @deprecated use `CallbackUnion$outboundSchema` instead. */
-  export const outboundSchema = CallbackUnion$outboundSchema;
-  /** @deprecated use `CallbackUnion$Outbound` instead. */
-  export type Outbound = CallbackUnion$Outbound;
-}
-
 export function callbackUnionToJSON(callbackUnion: CallbackUnion): string {
   return JSON.stringify(CallbackUnion$outboundSchema.parse(callbackUnion));
 }
-
-export function callbackUnionFromJSON(
-  jsonString: string,
-): SafeParseResult<CallbackUnion, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CallbackUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CallbackUnion' from JSON`,
-  );
-}
-
-/** @internal */
-export const MiscInfo$inboundSchema: z.ZodType<
-  MiscInfo,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  mpk: z.nullable(z.string()).default(null),
-  order_name: z.nullable(z.string()).default(null),
-}).transform((v) => {
-  return remap$(v, {
-    "order_name": "orderName",
-  });
-});
 
 /** @internal */
 export type MiscInfo$Outbound = {
@@ -528,39 +298,9 @@ export const MiscInfo$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace MiscInfo$ {
-  /** @deprecated use `MiscInfo$inboundSchema` instead. */
-  export const inboundSchema = MiscInfo$inboundSchema;
-  /** @deprecated use `MiscInfo$outboundSchema` instead. */
-  export const outboundSchema = MiscInfo$outboundSchema;
-  /** @deprecated use `MiscInfo$Outbound` instead. */
-  export type Outbound = MiscInfo$Outbound;
-}
-
 export function miscInfoToJSON(miscInfo: MiscInfo): string {
   return JSON.stringify(MiscInfo$outboundSchema.parse(miscInfo));
 }
-
-export function miscInfoFromJSON(
-  jsonString: string,
-): SafeParseResult<MiscInfo, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => MiscInfo$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MiscInfo' from JSON`,
-  );
-}
-
-/** @internal */
-export const MiscInfoUnion$inboundSchema: z.ZodType<
-  MiscInfoUnion,
-  z.ZodTypeDef,
-  unknown
-> = z.lazy(() => MiscInfo$inboundSchema);
 
 /** @internal */
 export type MiscInfoUnion$Outbound = MiscInfo$Outbound;
@@ -572,57 +312,9 @@ export const MiscInfoUnion$outboundSchema: z.ZodType<
   MiscInfoUnion
 > = z.lazy(() => MiscInfo$outboundSchema);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace MiscInfoUnion$ {
-  /** @deprecated use `MiscInfoUnion$inboundSchema` instead. */
-  export const inboundSchema = MiscInfoUnion$inboundSchema;
-  /** @deprecated use `MiscInfoUnion$outboundSchema` instead. */
-  export const outboundSchema = MiscInfoUnion$outboundSchema;
-  /** @deprecated use `MiscInfoUnion$Outbound` instead. */
-  export type Outbound = MiscInfoUnion$Outbound;
-}
-
 export function miscInfoUnionToJSON(miscInfoUnion: MiscInfoUnion): string {
   return JSON.stringify(MiscInfoUnion$outboundSchema.parse(miscInfoUnion));
 }
-
-export function miscInfoUnionFromJSON(
-  jsonString: string,
-): SafeParseResult<MiscInfoUnion, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => MiscInfoUnion$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'MiscInfoUnion' from JSON`,
-  );
-}
-
-/** @internal */
-export const ShipmentOptions$inboundSchema: z.ZodType<
-  ShipmentOptions,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  predefined_config_id: z.nullable(z.number().int()).optional(),
-  inline_config: z.nullable(z.lazy(() => InlineConfig$inboundSchema))
-    .optional(),
-  sender_id: z.nullable(z.number().int()).optional(),
-  dispatch_date: z.string().transform(v => new RFCDate(v)).optional(),
-  callback: z.nullable(z.lazy(() => Callback$inboundSchema)).optional(),
-  misc_info: z.nullable(z.lazy(() => MiscInfo$inboundSchema)).optional(),
-  rotate_documents: z.boolean().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "predefined_config_id": "predefinedConfigId",
-    "inline_config": "inlineConfig",
-    "sender_id": "senderId",
-    "dispatch_date": "dispatchDate",
-    "misc_info": "miscInfo",
-    "rotate_documents": "rotateDocuments",
-  });
-});
 
 /** @internal */
 export type ShipmentOptions$Outbound = {
@@ -660,38 +352,11 @@ export const ShipmentOptions$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentOptions$ {
-  /** @deprecated use `ShipmentOptions$inboundSchema` instead. */
-  export const inboundSchema = ShipmentOptions$inboundSchema;
-  /** @deprecated use `ShipmentOptions$outboundSchema` instead. */
-  export const outboundSchema = ShipmentOptions$outboundSchema;
-  /** @deprecated use `ShipmentOptions$Outbound` instead. */
-  export type Outbound = ShipmentOptions$Outbound;
-}
-
 export function shipmentOptionsToJSON(
   shipmentOptions: ShipmentOptions,
 ): string {
   return JSON.stringify(ShipmentOptions$outboundSchema.parse(shipmentOptions));
 }
-
-export function shipmentOptionsFromJSON(
-  jsonString: string,
-): SafeParseResult<ShipmentOptions, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ShipmentOptions$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ShipmentOptions' from JSON`,
-  );
-}
-
-/** @internal */
-export const Options$inboundSchema: z.ZodType<Options, z.ZodTypeDef, unknown> =
-  z.lazy(() => ShipmentOptions$inboundSchema);
 
 /** @internal */
 export type Options$Outbound = ShipmentOptions$Outbound;
@@ -703,49 +368,9 @@ export const Options$outboundSchema: z.ZodType<
   Options
 > = z.lazy(() => ShipmentOptions$outboundSchema);
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Options$ {
-  /** @deprecated use `Options$inboundSchema` instead. */
-  export const inboundSchema = Options$inboundSchema;
-  /** @deprecated use `Options$outboundSchema` instead. */
-  export const outboundSchema = Options$outboundSchema;
-  /** @deprecated use `Options$Outbound` instead. */
-  export type Outbound = Options$Outbound;
-}
-
 export function optionsToJSON(options: Options): string {
   return JSON.stringify(Options$outboundSchema.parse(options));
 }
-
-export function optionsFromJSON(
-  jsonString: string,
-): SafeParseResult<Options, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Options$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Options' from JSON`,
-  );
-}
-
-/** @internal */
-export const Shipment$inboundSchema: z.ZodType<
-  Shipment,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  recipients: z.union([
-    Recipients$inboundSchema,
-    z.array(z.lazy(() => Recipients$inboundSchema)),
-  ]),
-  documents: z.union([
-    Documents$inboundSchema,
-    z.array(z.lazy(() => Documents$inboundSchema)),
-  ]),
-  options: z.nullable(z.lazy(() => ShipmentOptions$inboundSchema)).optional(),
-});
 
 /** @internal */
 export type Shipment$Outbound = {
@@ -771,29 +396,6 @@ export const Shipment$outboundSchema: z.ZodType<
   options: z.nullable(z.lazy(() => ShipmentOptions$outboundSchema)).optional(),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Shipment$ {
-  /** @deprecated use `Shipment$inboundSchema` instead. */
-  export const inboundSchema = Shipment$inboundSchema;
-  /** @deprecated use `Shipment$outboundSchema` instead. */
-  export const outboundSchema = Shipment$outboundSchema;
-  /** @deprecated use `Shipment$Outbound` instead. */
-  export type Outbound = Shipment$Outbound;
-}
-
 export function shipmentToJSON(shipment: Shipment): string {
   return JSON.stringify(Shipment$outboundSchema.parse(shipment));
-}
-
-export function shipmentFromJSON(
-  jsonString: string,
-): SafeParseResult<Shipment, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Shipment$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Shipment' from JSON`,
-  );
 }

@@ -3,9 +3,6 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Mock document used to simulate page count for pricing without uploading a real file.
@@ -16,15 +13,6 @@ export type DocumentMock = {
    */
   pages: number;
 };
-
-/** @internal */
-export const DocumentMock$inboundSchema: z.ZodType<
-  DocumentMock,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  pages: z.number().int(),
-});
 
 /** @internal */
 export type DocumentMock$Outbound = {
@@ -40,29 +28,6 @@ export const DocumentMock$outboundSchema: z.ZodType<
   pages: z.number().int(),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DocumentMock$ {
-  /** @deprecated use `DocumentMock$inboundSchema` instead. */
-  export const inboundSchema = DocumentMock$inboundSchema;
-  /** @deprecated use `DocumentMock$outboundSchema` instead. */
-  export const outboundSchema = DocumentMock$outboundSchema;
-  /** @deprecated use `DocumentMock$Outbound` instead. */
-  export type Outbound = DocumentMock$Outbound;
-}
-
 export function documentMockToJSON(documentMock: DocumentMock): string {
   return JSON.stringify(DocumentMock$outboundSchema.parse(documentMock));
-}
-
-export function documentMockFromJSON(
-  jsonString: string,
-): SafeParseResult<DocumentMock, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DocumentMock$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DocumentMock' from JSON`,
-  );
 }

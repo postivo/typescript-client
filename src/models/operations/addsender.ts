@@ -28,42 +28,6 @@ export const AddSenderResponseResult$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type AddSenderResponseResult$Outbound =
-  | models.SenderDetails$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const AddSenderResponseResult$outboundSchema: z.ZodType<
-  AddSenderResponseResult$Outbound,
-  z.ZodTypeDef,
-  AddSenderResponseResult
-> = z.union([
-  models.SenderDetails$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddSenderResponseResult$ {
-  /** @deprecated use `AddSenderResponseResult$inboundSchema` instead. */
-  export const inboundSchema = AddSenderResponseResult$inboundSchema;
-  /** @deprecated use `AddSenderResponseResult$outboundSchema` instead. */
-  export const outboundSchema = AddSenderResponseResult$outboundSchema;
-  /** @deprecated use `AddSenderResponseResult$Outbound` instead. */
-  export type Outbound = AddSenderResponseResult$Outbound;
-}
-
-export function addSenderResponseResultToJSON(
-  addSenderResponseResult: AddSenderResponseResult,
-): string {
-  return JSON.stringify(
-    AddSenderResponseResult$outboundSchema.parse(addSenderResponseResult),
-  );
-}
-
 export function addSenderResponseResultFromJSON(
   jsonString: string,
 ): SafeParseResult<AddSenderResponseResult, SDKValidationError> {
@@ -80,7 +44,7 @@ export const AddSenderResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.SenderDetails$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -91,51 +55,6 @@ export const AddSenderResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type AddSenderResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.SenderDetails$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const AddSenderResponse$outboundSchema: z.ZodType<
-  AddSenderResponse$Outbound,
-  z.ZodTypeDef,
-  AddSenderResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.SenderDetails$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddSenderResponse$ {
-  /** @deprecated use `AddSenderResponse$inboundSchema` instead. */
-  export const inboundSchema = AddSenderResponse$inboundSchema;
-  /** @deprecated use `AddSenderResponse$outboundSchema` instead. */
-  export const outboundSchema = AddSenderResponse$outboundSchema;
-  /** @deprecated use `AddSenderResponse$Outbound` instead. */
-  export type Outbound = AddSenderResponse$Outbound;
-}
-
-export function addSenderResponseToJSON(
-  addSenderResponse: AddSenderResponse,
-): string {
-  return JSON.stringify(
-    AddSenderResponse$outboundSchema.parse(addSenderResponse),
-  );
-}
 
 export function addSenderResponseFromJSON(
   jsonString: string,

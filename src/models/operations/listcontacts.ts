@@ -30,16 +30,6 @@ export type ListContactsResponse = {
 };
 
 /** @internal */
-export const ListContactsRequest$inboundSchema: z.ZodType<
-  ListContactsRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  page: z.number().int().default(1),
-  limit: z.number().int().default(10),
-});
-
-/** @internal */
 export type ListContactsRequest$Outbound = {
   page: number;
   limit: number;
@@ -55,34 +45,11 @@ export const ListContactsRequest$outboundSchema: z.ZodType<
   limit: z.number().int().default(10),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListContactsRequest$ {
-  /** @deprecated use `ListContactsRequest$inboundSchema` instead. */
-  export const inboundSchema = ListContactsRequest$inboundSchema;
-  /** @deprecated use `ListContactsRequest$outboundSchema` instead. */
-  export const outboundSchema = ListContactsRequest$outboundSchema;
-  /** @deprecated use `ListContactsRequest$Outbound` instead. */
-  export type Outbound = ListContactsRequest$Outbound;
-}
-
 export function listContactsRequestToJSON(
   listContactsRequest: ListContactsRequest,
 ): string {
   return JSON.stringify(
     ListContactsRequest$outboundSchema.parse(listContactsRequest),
-  );
-}
-
-export function listContactsRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<ListContactsRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ListContactsRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ListContactsRequest' from JSON`,
   );
 }
 
@@ -95,42 +62,6 @@ export const ListContactsResponseResult$inboundSchema: z.ZodType<
   z.array(models.ContactResponse$inboundSchema),
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type ListContactsResponseResult$Outbound =
-  | Array<models.ContactResponse$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ListContactsResponseResult$outboundSchema: z.ZodType<
-  ListContactsResponseResult$Outbound,
-  z.ZodTypeDef,
-  ListContactsResponseResult
-> = z.union([
-  z.array(models.ContactResponse$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListContactsResponseResult$ {
-  /** @deprecated use `ListContactsResponseResult$inboundSchema` instead. */
-  export const inboundSchema = ListContactsResponseResult$inboundSchema;
-  /** @deprecated use `ListContactsResponseResult$outboundSchema` instead. */
-  export const outboundSchema = ListContactsResponseResult$outboundSchema;
-  /** @deprecated use `ListContactsResponseResult$Outbound` instead. */
-  export type Outbound = ListContactsResponseResult$Outbound;
-}
-
-export function listContactsResponseResultToJSON(
-  listContactsResponseResult: ListContactsResponseResult,
-): string {
-  return JSON.stringify(
-    ListContactsResponseResult$outboundSchema.parse(listContactsResponseResult),
-  );
-}
 
 export function listContactsResponseResultFromJSON(
   jsonString: string,
@@ -148,7 +79,7 @@ export const ListContactsResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     z.array(models.ContactResponse$inboundSchema),
     models.ErrorResponse$inboundSchema,
@@ -159,53 +90,6 @@ export const ListContactsResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type ListContactsResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result:
-    | Array<models.ContactResponse$Outbound>
-    | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const ListContactsResponse$outboundSchema: z.ZodType<
-  ListContactsResponse$Outbound,
-  z.ZodTypeDef,
-  ListContactsResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    z.array(models.ContactResponse$outboundSchema),
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListContactsResponse$ {
-  /** @deprecated use `ListContactsResponse$inboundSchema` instead. */
-  export const inboundSchema = ListContactsResponse$inboundSchema;
-  /** @deprecated use `ListContactsResponse$outboundSchema` instead. */
-  export const outboundSchema = ListContactsResponse$outboundSchema;
-  /** @deprecated use `ListContactsResponse$Outbound` instead. */
-  export type Outbound = ListContactsResponse$Outbound;
-}
-
-export function listContactsResponseToJSON(
-  listContactsResponse: ListContactsResponse,
-): string {
-  return JSON.stringify(
-    ListContactsResponse$outboundSchema.parse(listContactsResponse),
-  );
-}
 
 export function listContactsResponseFromJSON(
   jsonString: string,

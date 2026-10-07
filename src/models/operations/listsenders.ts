@@ -22,42 +22,6 @@ export const ListSendersResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ListSendersResponse$Outbound =
-  | Array<models.SenderDetails$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ListSendersResponse$outboundSchema: z.ZodType<
-  ListSendersResponse$Outbound,
-  z.ZodTypeDef,
-  ListSendersResponse
-> = z.union([
-  z.array(models.SenderDetails$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ListSendersResponse$ {
-  /** @deprecated use `ListSendersResponse$inboundSchema` instead. */
-  export const inboundSchema = ListSendersResponse$inboundSchema;
-  /** @deprecated use `ListSendersResponse$outboundSchema` instead. */
-  export const outboundSchema = ListSendersResponse$outboundSchema;
-  /** @deprecated use `ListSendersResponse$Outbound` instead. */
-  export type Outbound = ListSendersResponse$Outbound;
-}
-
-export function listSendersResponseToJSON(
-  listSendersResponse: ListSendersResponse,
-): string {
-  return JSON.stringify(
-    ListSendersResponse$outboundSchema.parse(listSendersResponse),
-  );
-}
-
 export function listSendersResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<ListSendersResponse, SDKValidationError> {

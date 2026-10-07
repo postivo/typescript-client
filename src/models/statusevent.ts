@@ -57,51 +57,6 @@ export const StatusEvent$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type StatusEvent$Outbound = {
-  unique_id?: number | undefined;
-  type?: string | undefined;
-  code?: string | undefined;
-  name?: string | undefined;
-  details?: string | null | undefined;
-  date?: string | undefined;
-};
-
-/** @internal */
-export const StatusEvent$outboundSchema: z.ZodType<
-  StatusEvent$Outbound,
-  z.ZodTypeDef,
-  StatusEvent
-> = z.object({
-  uniqueId: z.number().int().optional(),
-  type: z.string().optional(),
-  code: z.string().optional(),
-  name: z.string().optional(),
-  details: z.nullable(z.string()).optional(),
-  date: z.date().transform(v => v.toISOString()).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    uniqueId: "unique_id",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace StatusEvent$ {
-  /** @deprecated use `StatusEvent$inboundSchema` instead. */
-  export const inboundSchema = StatusEvent$inboundSchema;
-  /** @deprecated use `StatusEvent$outboundSchema` instead. */
-  export const outboundSchema = StatusEvent$outboundSchema;
-  /** @deprecated use `StatusEvent$Outbound` instead. */
-  export type Outbound = StatusEvent$Outbound;
-}
-
-export function statusEventToJSON(statusEvent: StatusEvent): string {
-  return JSON.stringify(StatusEvent$outboundSchema.parse(statusEvent));
-}
-
 export function statusEventFromJSON(
   jsonString: string,
 ): SafeParseResult<StatusEvent, SDKValidationError> {

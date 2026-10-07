@@ -26,15 +26,6 @@ export type CancelShipmentResponse = {
 };
 
 /** @internal */
-export const CancelShipmentRequest$inboundSchema: z.ZodType<
-  CancelShipmentRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ids: z.array(z.string()),
-});
-
-/** @internal */
 export type CancelShipmentRequest$Outbound = {
   ids: Array<string>;
 };
@@ -48,34 +39,11 @@ export const CancelShipmentRequest$outboundSchema: z.ZodType<
   ids: z.array(z.string()),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CancelShipmentRequest$ {
-  /** @deprecated use `CancelShipmentRequest$inboundSchema` instead. */
-  export const inboundSchema = CancelShipmentRequest$inboundSchema;
-  /** @deprecated use `CancelShipmentRequest$outboundSchema` instead. */
-  export const outboundSchema = CancelShipmentRequest$outboundSchema;
-  /** @deprecated use `CancelShipmentRequest$Outbound` instead. */
-  export type Outbound = CancelShipmentRequest$Outbound;
-}
-
 export function cancelShipmentRequestToJSON(
   cancelShipmentRequest: CancelShipmentRequest,
 ): string {
   return JSON.stringify(
     CancelShipmentRequest$outboundSchema.parse(cancelShipmentRequest),
-  );
-}
-
-export function cancelShipmentRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<CancelShipmentRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CancelShipmentRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CancelShipmentRequest' from JSON`,
   );
 }
 
@@ -88,44 +56,6 @@ export const CancelShipmentResponseResult$inboundSchema: z.ZodType<
   z.array(models.ShipmentCancellation$inboundSchema),
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type CancelShipmentResponseResult$Outbound =
-  | Array<models.ShipmentCancellation$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const CancelShipmentResponseResult$outboundSchema: z.ZodType<
-  CancelShipmentResponseResult$Outbound,
-  z.ZodTypeDef,
-  CancelShipmentResponseResult
-> = z.union([
-  z.array(models.ShipmentCancellation$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CancelShipmentResponseResult$ {
-  /** @deprecated use `CancelShipmentResponseResult$inboundSchema` instead. */
-  export const inboundSchema = CancelShipmentResponseResult$inboundSchema;
-  /** @deprecated use `CancelShipmentResponseResult$outboundSchema` instead. */
-  export const outboundSchema = CancelShipmentResponseResult$outboundSchema;
-  /** @deprecated use `CancelShipmentResponseResult$Outbound` instead. */
-  export type Outbound = CancelShipmentResponseResult$Outbound;
-}
-
-export function cancelShipmentResponseResultToJSON(
-  cancelShipmentResponseResult: CancelShipmentResponseResult,
-): string {
-  return JSON.stringify(
-    CancelShipmentResponseResult$outboundSchema.parse(
-      cancelShipmentResponseResult,
-    ),
-  );
-}
 
 export function cancelShipmentResponseResultFromJSON(
   jsonString: string,
@@ -143,7 +73,7 @@ export const CancelShipmentResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     z.array(models.ShipmentCancellation$inboundSchema),
     models.ErrorResponse$inboundSchema,
@@ -154,53 +84,6 @@ export const CancelShipmentResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type CancelShipmentResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result:
-    | Array<models.ShipmentCancellation$Outbound>
-    | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const CancelShipmentResponse$outboundSchema: z.ZodType<
-  CancelShipmentResponse$Outbound,
-  z.ZodTypeDef,
-  CancelShipmentResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    z.array(models.ShipmentCancellation$outboundSchema),
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CancelShipmentResponse$ {
-  /** @deprecated use `CancelShipmentResponse$inboundSchema` instead. */
-  export const inboundSchema = CancelShipmentResponse$inboundSchema;
-  /** @deprecated use `CancelShipmentResponse$outboundSchema` instead. */
-  export const outboundSchema = CancelShipmentResponse$outboundSchema;
-  /** @deprecated use `CancelShipmentResponse$Outbound` instead. */
-  export type Outbound = CancelShipmentResponse$Outbound;
-}
-
-export function cancelShipmentResponseToJSON(
-  cancelShipmentResponse: CancelShipmentResponse,
-): string {
-  return JSON.stringify(
-    CancelShipmentResponse$outboundSchema.parse(cancelShipmentResponse),
-  );
-}
 
 export function cancelShipmentResponseFromJSON(
   jsonString: string,

@@ -30,20 +30,6 @@ export type UpdateGroupResponse = {
 };
 
 /** @internal */
-export const UpdateGroupRequest$inboundSchema: z.ZodType<
-  UpdateGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  Group: models.Group$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "Group": "group",
-  });
-});
-
-/** @internal */
 export type UpdateGroupRequest$Outbound = {
   id: number;
   Group: models.Group$Outbound;
@@ -63,34 +49,11 @@ export const UpdateGroupRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateGroupRequest$ {
-  /** @deprecated use `UpdateGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = UpdateGroupRequest$inboundSchema;
-  /** @deprecated use `UpdateGroupRequest$outboundSchema` instead. */
-  export const outboundSchema = UpdateGroupRequest$outboundSchema;
-  /** @deprecated use `UpdateGroupRequest$Outbound` instead. */
-  export type Outbound = UpdateGroupRequest$Outbound;
-}
-
 export function updateGroupRequestToJSON(
   updateGroupRequest: UpdateGroupRequest,
 ): string {
   return JSON.stringify(
     UpdateGroupRequest$outboundSchema.parse(updateGroupRequest),
-  );
-}
-
-export function updateGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<UpdateGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => UpdateGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'UpdateGroupRequest' from JSON`,
   );
 }
 
@@ -103,42 +66,6 @@ export const UpdateGroupResponseResult$inboundSchema: z.ZodType<
   models.GroupResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type UpdateGroupResponseResult$Outbound =
-  | models.GroupResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const UpdateGroupResponseResult$outboundSchema: z.ZodType<
-  UpdateGroupResponseResult$Outbound,
-  z.ZodTypeDef,
-  UpdateGroupResponseResult
-> = z.union([
-  models.GroupResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateGroupResponseResult$ {
-  /** @deprecated use `UpdateGroupResponseResult$inboundSchema` instead. */
-  export const inboundSchema = UpdateGroupResponseResult$inboundSchema;
-  /** @deprecated use `UpdateGroupResponseResult$outboundSchema` instead. */
-  export const outboundSchema = UpdateGroupResponseResult$outboundSchema;
-  /** @deprecated use `UpdateGroupResponseResult$Outbound` instead. */
-  export type Outbound = UpdateGroupResponseResult$Outbound;
-}
-
-export function updateGroupResponseResultToJSON(
-  updateGroupResponseResult: UpdateGroupResponseResult,
-): string {
-  return JSON.stringify(
-    UpdateGroupResponseResult$outboundSchema.parse(updateGroupResponseResult),
-  );
-}
 
 export function updateGroupResponseResultFromJSON(
   jsonString: string,
@@ -156,7 +83,7 @@ export const UpdateGroupResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.GroupResponse$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -167,51 +94,6 @@ export const UpdateGroupResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type UpdateGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.GroupResponse$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const UpdateGroupResponse$outboundSchema: z.ZodType<
-  UpdateGroupResponse$Outbound,
-  z.ZodTypeDef,
-  UpdateGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.GroupResponse$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateGroupResponse$ {
-  /** @deprecated use `UpdateGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = UpdateGroupResponse$inboundSchema;
-  /** @deprecated use `UpdateGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = UpdateGroupResponse$outboundSchema;
-  /** @deprecated use `UpdateGroupResponse$Outbound` instead. */
-  export type Outbound = UpdateGroupResponse$Outbound;
-}
-
-export function updateGroupResponseToJSON(
-  updateGroupResponse: UpdateGroupResponse,
-): string {
-  return JSON.stringify(
-    UpdateGroupResponse$outboundSchema.parse(updateGroupResponse),
-  );
-}
 
 export function updateGroupResponseFromJSON(
   jsonString: string,

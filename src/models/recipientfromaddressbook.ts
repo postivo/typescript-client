@@ -4,9 +4,6 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Select recipient data for a shipment from the Address Book.
@@ -25,21 +22,6 @@ export type RecipientFromAddressBook = {
    */
   postscript?: string | null | undefined;
 };
-
-/** @internal */
-export const RecipientFromAddressBook$inboundSchema: z.ZodType<
-  RecipientFromAddressBook,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  custom_id: z.nullable(z.string()).default(null),
-  postscript: z.nullable(z.string()).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "custom_id": "customId",
-  });
-});
 
 /** @internal */
 export type RecipientFromAddressBook$Outbound = {
@@ -63,33 +45,10 @@ export const RecipientFromAddressBook$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RecipientFromAddressBook$ {
-  /** @deprecated use `RecipientFromAddressBook$inboundSchema` instead. */
-  export const inboundSchema = RecipientFromAddressBook$inboundSchema;
-  /** @deprecated use `RecipientFromAddressBook$outboundSchema` instead. */
-  export const outboundSchema = RecipientFromAddressBook$outboundSchema;
-  /** @deprecated use `RecipientFromAddressBook$Outbound` instead. */
-  export type Outbound = RecipientFromAddressBook$Outbound;
-}
-
 export function recipientFromAddressBookToJSON(
   recipientFromAddressBook: RecipientFromAddressBook,
 ): string {
   return JSON.stringify(
     RecipientFromAddressBook$outboundSchema.parse(recipientFromAddressBook),
-  );
-}
-
-export function recipientFromAddressBookFromJSON(
-  jsonString: string,
-): SafeParseResult<RecipientFromAddressBook, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => RecipientFromAddressBook$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RecipientFromAddressBook' from JSON`,
   );
 }

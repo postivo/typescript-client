@@ -22,42 +22,6 @@ export const GetAccountDetailsResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type GetAccountDetailsResponse$Outbound =
-  | models.AccountResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetAccountDetailsResponse$outboundSchema: z.ZodType<
-  GetAccountDetailsResponse$Outbound,
-  z.ZodTypeDef,
-  GetAccountDetailsResponse
-> = z.union([
-  models.AccountResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetAccountDetailsResponse$ {
-  /** @deprecated use `GetAccountDetailsResponse$inboundSchema` instead. */
-  export const inboundSchema = GetAccountDetailsResponse$inboundSchema;
-  /** @deprecated use `GetAccountDetailsResponse$outboundSchema` instead. */
-  export const outboundSchema = GetAccountDetailsResponse$outboundSchema;
-  /** @deprecated use `GetAccountDetailsResponse$Outbound` instead. */
-  export type Outbound = GetAccountDetailsResponse$Outbound;
-}
-
-export function getAccountDetailsResponseToJSON(
-  getAccountDetailsResponse: GetAccountDetailsResponse,
-): string {
-  return JSON.stringify(
-    GetAccountDetailsResponse$outboundSchema.parse(getAccountDetailsResponse),
-  );
-}
-
 export function getAccountDetailsResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<GetAccountDetailsResponse, SDKValidationError> {

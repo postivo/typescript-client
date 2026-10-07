@@ -18,21 +18,8 @@ export type DeleteContactByExternalIdRequest = {
 
 export type DeleteContactByExternalIdResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const DeleteContactByExternalIdRequest$inboundSchema: z.ZodType<
-  DeleteContactByExternalIdRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-  });
-});
 
 /** @internal */
 export type DeleteContactByExternalIdRequest$Outbound = {
@@ -52,19 +39,6 @@ export const DeleteContactByExternalIdRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteContactByExternalIdRequest$ {
-  /** @deprecated use `DeleteContactByExternalIdRequest$inboundSchema` instead. */
-  export const inboundSchema = DeleteContactByExternalIdRequest$inboundSchema;
-  /** @deprecated use `DeleteContactByExternalIdRequest$outboundSchema` instead. */
-  export const outboundSchema = DeleteContactByExternalIdRequest$outboundSchema;
-  /** @deprecated use `DeleteContactByExternalIdRequest$Outbound` instead. */
-  export type Outbound = DeleteContactByExternalIdRequest$Outbound;
-}
-
 export function deleteContactByExternalIdRequestToJSON(
   deleteContactByExternalIdRequest: DeleteContactByExternalIdRequest,
 ): string {
@@ -75,75 +49,20 @@ export function deleteContactByExternalIdRequestToJSON(
   );
 }
 
-export function deleteContactByExternalIdRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<DeleteContactByExternalIdRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeleteContactByExternalIdRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteContactByExternalIdRequest' from JSON`,
-  );
-}
-
 /** @internal */
 export const DeleteContactByExternalIdResponse$inboundSchema: z.ZodType<
   DeleteContactByExternalIdResponse,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type DeleteContactByExternalIdResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const DeleteContactByExternalIdResponse$outboundSchema: z.ZodType<
-  DeleteContactByExternalIdResponse$Outbound,
-  z.ZodTypeDef,
-  DeleteContactByExternalIdResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteContactByExternalIdResponse$ {
-  /** @deprecated use `DeleteContactByExternalIdResponse$inboundSchema` instead. */
-  export const inboundSchema = DeleteContactByExternalIdResponse$inboundSchema;
-  /** @deprecated use `DeleteContactByExternalIdResponse$outboundSchema` instead. */
-  export const outboundSchema =
-    DeleteContactByExternalIdResponse$outboundSchema;
-  /** @deprecated use `DeleteContactByExternalIdResponse$Outbound` instead. */
-  export type Outbound = DeleteContactByExternalIdResponse$Outbound;
-}
-
-export function deleteContactByExternalIdResponseToJSON(
-  deleteContactByExternalIdResponse: DeleteContactByExternalIdResponse,
-): string {
-  return JSON.stringify(
-    DeleteContactByExternalIdResponse$outboundSchema.parse(
-      deleteContactByExternalIdResponse,
-    ),
-  );
-}
 
 export function deleteContactByExternalIdResponseFromJSON(
   jsonString: string,

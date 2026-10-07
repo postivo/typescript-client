@@ -64,7 +64,6 @@ export const Sender$inboundSchema: z.ZodType<Sender, z.ZodTypeDef, unknown> = z
       "post_code": "postCode",
     });
   });
-
 /** @internal */
 export type Sender$Outbound = {
   name: string | null;
@@ -99,23 +98,9 @@ export const Sender$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Sender$ {
-  /** @deprecated use `Sender$inboundSchema` instead. */
-  export const inboundSchema = Sender$inboundSchema;
-  /** @deprecated use `Sender$outboundSchema` instead. */
-  export const outboundSchema = Sender$outboundSchema;
-  /** @deprecated use `Sender$Outbound` instead. */
-  export type Outbound = Sender$Outbound;
-}
-
 export function senderToJSON(sender: Sender): string {
   return JSON.stringify(Sender$outboundSchema.parse(sender));
 }
-
 export function senderFromJSON(
   jsonString: string,
 ): SafeParseResult<Sender, SDKValidationError> {

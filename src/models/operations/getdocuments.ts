@@ -57,33 +57,8 @@ export type GetDocumentsResponse = {
 };
 
 /** @internal */
-export const DocumentType$inboundSchema: z.ZodNativeEnum<typeof DocumentType> =
-  z.nativeEnum(DocumentType);
-
-/** @internal */
 export const DocumentType$outboundSchema: z.ZodNativeEnum<typeof DocumentType> =
-  DocumentType$inboundSchema;
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DocumentType$ {
-  /** @deprecated use `DocumentType$inboundSchema` instead. */
-  export const inboundSchema = DocumentType$inboundSchema;
-  /** @deprecated use `DocumentType$outboundSchema` instead. */
-  export const outboundSchema = DocumentType$outboundSchema;
-}
-
-/** @internal */
-export const GetDocumentsRequest$inboundSchema: z.ZodType<
-  GetDocumentsRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.string(),
-  type: DocumentType$inboundSchema,
-});
+  z.nativeEnum(DocumentType);
 
 /** @internal */
 export type GetDocumentsRequest$Outbound = {
@@ -101,34 +76,11 @@ export const GetDocumentsRequest$outboundSchema: z.ZodType<
   type: DocumentType$outboundSchema,
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetDocumentsRequest$ {
-  /** @deprecated use `GetDocumentsRequest$inboundSchema` instead. */
-  export const inboundSchema = GetDocumentsRequest$inboundSchema;
-  /** @deprecated use `GetDocumentsRequest$outboundSchema` instead. */
-  export const outboundSchema = GetDocumentsRequest$outboundSchema;
-  /** @deprecated use `GetDocumentsRequest$Outbound` instead. */
-  export type Outbound = GetDocumentsRequest$Outbound;
-}
-
 export function getDocumentsRequestToJSON(
   getDocumentsRequest: GetDocumentsRequest,
 ): string {
   return JSON.stringify(
     GetDocumentsRequest$outboundSchema.parse(getDocumentsRequest),
-  );
-}
-
-export function getDocumentsRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<GetDocumentsRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetDocumentsRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetDocumentsRequest' from JSON`,
   );
 }
 
@@ -141,42 +93,6 @@ export const GetDocumentsResponseResult$inboundSchema: z.ZodType<
   models.DocumentResponse$inboundSchema,
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type GetDocumentsResponseResult$Outbound =
-  | models.DocumentResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetDocumentsResponseResult$outboundSchema: z.ZodType<
-  GetDocumentsResponseResult$Outbound,
-  z.ZodTypeDef,
-  GetDocumentsResponseResult
-> = z.union([
-  models.DocumentResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetDocumentsResponseResult$ {
-  /** @deprecated use `GetDocumentsResponseResult$inboundSchema` instead. */
-  export const inboundSchema = GetDocumentsResponseResult$inboundSchema;
-  /** @deprecated use `GetDocumentsResponseResult$outboundSchema` instead. */
-  export const outboundSchema = GetDocumentsResponseResult$outboundSchema;
-  /** @deprecated use `GetDocumentsResponseResult$Outbound` instead. */
-  export type Outbound = GetDocumentsResponseResult$Outbound;
-}
-
-export function getDocumentsResponseResultToJSON(
-  getDocumentsResponseResult: GetDocumentsResponseResult,
-): string {
-  return JSON.stringify(
-    GetDocumentsResponseResult$outboundSchema.parse(getDocumentsResponseResult),
-  );
-}
 
 export function getDocumentsResponseResultFromJSON(
   jsonString: string,
@@ -194,7 +110,7 @@ export const GetDocumentsResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.DocumentResponse$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -205,51 +121,6 @@ export const GetDocumentsResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type GetDocumentsResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.DocumentResponse$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const GetDocumentsResponse$outboundSchema: z.ZodType<
-  GetDocumentsResponse$Outbound,
-  z.ZodTypeDef,
-  GetDocumentsResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.DocumentResponse$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetDocumentsResponse$ {
-  /** @deprecated use `GetDocumentsResponse$inboundSchema` instead. */
-  export const inboundSchema = GetDocumentsResponse$inboundSchema;
-  /** @deprecated use `GetDocumentsResponse$outboundSchema` instead. */
-  export const outboundSchema = GetDocumentsResponse$outboundSchema;
-  /** @deprecated use `GetDocumentsResponse$Outbound` instead. */
-  export type Outbound = GetDocumentsResponse$Outbound;
-}
-
-export function getDocumentsResponseToJSON(
-  getDocumentsResponse: GetDocumentsResponse,
-): string {
-  return JSON.stringify(
-    GetDocumentsResponse$outboundSchema.parse(getDocumentsResponse),
-  );
-}
 
 export function getDocumentsResponseFromJSON(
   jsonString: string,

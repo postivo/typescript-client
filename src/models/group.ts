@@ -3,9 +3,6 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Contact group definition in the Address Book.
@@ -20,13 +17,6 @@ export type Group = {
    */
   description?: string | null | undefined;
 };
-
-/** @internal */
-export const Group$inboundSchema: z.ZodType<Group, z.ZodTypeDef, unknown> = z
-  .object({
-    name: z.string(),
-    description: z.nullable(z.string()).optional(),
-  });
 
 /** @internal */
 export type Group$Outbound = {
@@ -44,29 +34,6 @@ export const Group$outboundSchema: z.ZodType<
   description: z.nullable(z.string()).optional(),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Group$ {
-  /** @deprecated use `Group$inboundSchema` instead. */
-  export const inboundSchema = Group$inboundSchema;
-  /** @deprecated use `Group$outboundSchema` instead. */
-  export const outboundSchema = Group$outboundSchema;
-  /** @deprecated use `Group$Outbound` instead. */
-  export type Outbound = Group$Outbound;
-}
-
 export function groupToJSON(group: Group): string {
   return JSON.stringify(Group$outboundSchema.parse(group));
-}
-
-export function groupFromJSON(
-  jsonString: string,
-): SafeParseResult<Group, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Group$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Group' from JSON`,
-  );
 }

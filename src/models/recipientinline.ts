@@ -4,9 +4,6 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Recipient data with full address for inline definition.
@@ -59,33 +56,6 @@ export type RecipientInline = {
 };
 
 /** @internal */
-export const RecipientInline$inboundSchema: z.ZodType<
-  RecipientInline,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  name: z.nullable(z.string()),
-  name2: z.nullable(z.string()).optional(),
-  address: z.nullable(z.string()),
-  home_number: z.nullable(z.string()).optional(),
-  flat_number: z.nullable(z.string()).optional(),
-  post_code: z.nullable(z.string()),
-  city: z.nullable(z.string()),
-  country: z.nullable(z.string().default("PL")),
-  phone_number: z.nullable(z.string()).optional(),
-  postscript: z.nullable(z.string()).optional(),
-  custom_id: z.nullable(z.string()).default(null),
-}).transform((v) => {
-  return remap$(v, {
-    "home_number": "homeNumber",
-    "flat_number": "flatNumber",
-    "post_code": "postCode",
-    "phone_number": "phoneNumber",
-    "custom_id": "customId",
-  });
-});
-
-/** @internal */
 export type RecipientInline$Outbound = {
   name: string | null;
   name2?: string | null | undefined;
@@ -127,31 +97,8 @@ export const RecipientInline$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RecipientInline$ {
-  /** @deprecated use `RecipientInline$inboundSchema` instead. */
-  export const inboundSchema = RecipientInline$inboundSchema;
-  /** @deprecated use `RecipientInline$outboundSchema` instead. */
-  export const outboundSchema = RecipientInline$outboundSchema;
-  /** @deprecated use `RecipientInline$Outbound` instead. */
-  export type Outbound = RecipientInline$Outbound;
-}
-
 export function recipientInlineToJSON(
   recipientInline: RecipientInline,
 ): string {
   return JSON.stringify(RecipientInline$outboundSchema.parse(recipientInline));
-}
-
-export function recipientInlineFromJSON(
-  jsonString: string,
-): SafeParseResult<RecipientInline, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => RecipientInline$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RecipientInline' from JSON`,
-  );
 }

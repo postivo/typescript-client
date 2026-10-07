@@ -26,15 +26,6 @@ export type GetStatusResponse = {
 };
 
 /** @internal */
-export const GetStatusRequest$inboundSchema: z.ZodType<
-  GetStatusRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ids: z.array(z.string()),
-});
-
-/** @internal */
 export type GetStatusRequest$Outbound = {
   ids: Array<string>;
 };
@@ -48,34 +39,11 @@ export const GetStatusRequest$outboundSchema: z.ZodType<
   ids: z.array(z.string()),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetStatusRequest$ {
-  /** @deprecated use `GetStatusRequest$inboundSchema` instead. */
-  export const inboundSchema = GetStatusRequest$inboundSchema;
-  /** @deprecated use `GetStatusRequest$outboundSchema` instead. */
-  export const outboundSchema = GetStatusRequest$outboundSchema;
-  /** @deprecated use `GetStatusRequest$Outbound` instead. */
-  export type Outbound = GetStatusRequest$Outbound;
-}
-
 export function getStatusRequestToJSON(
   getStatusRequest: GetStatusRequest,
 ): string {
   return JSON.stringify(
     GetStatusRequest$outboundSchema.parse(getStatusRequest),
-  );
-}
-
-export function getStatusRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<GetStatusRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetStatusRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetStatusRequest' from JSON`,
   );
 }
 
@@ -88,42 +56,6 @@ export const GetStatusResponseResult$inboundSchema: z.ZodType<
   z.array(models.StatusDetails$inboundSchema),
   models.ErrorResponse$inboundSchema,
 ]);
-
-/** @internal */
-export type GetStatusResponseResult$Outbound =
-  | Array<models.StatusDetails$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const GetStatusResponseResult$outboundSchema: z.ZodType<
-  GetStatusResponseResult$Outbound,
-  z.ZodTypeDef,
-  GetStatusResponseResult
-> = z.union([
-  z.array(models.StatusDetails$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetStatusResponseResult$ {
-  /** @deprecated use `GetStatusResponseResult$inboundSchema` instead. */
-  export const inboundSchema = GetStatusResponseResult$inboundSchema;
-  /** @deprecated use `GetStatusResponseResult$outboundSchema` instead. */
-  export const outboundSchema = GetStatusResponseResult$outboundSchema;
-  /** @deprecated use `GetStatusResponseResult$Outbound` instead. */
-  export type Outbound = GetStatusResponseResult$Outbound;
-}
-
-export function getStatusResponseResultToJSON(
-  getStatusResponseResult: GetStatusResponseResult,
-): string {
-  return JSON.stringify(
-    GetStatusResponseResult$outboundSchema.parse(getStatusResponseResult),
-  );
-}
 
 export function getStatusResponseResultFromJSON(
   jsonString: string,
@@ -141,7 +73,7 @@ export const GetStatusResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     z.array(models.StatusDetails$inboundSchema),
     models.ErrorResponse$inboundSchema,
@@ -152,51 +84,6 @@ export const GetStatusResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type GetStatusResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: Array<models.StatusDetails$Outbound> | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const GetStatusResponse$outboundSchema: z.ZodType<
-  GetStatusResponse$Outbound,
-  z.ZodTypeDef,
-  GetStatusResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    z.array(models.StatusDetails$outboundSchema),
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetStatusResponse$ {
-  /** @deprecated use `GetStatusResponse$inboundSchema` instead. */
-  export const inboundSchema = GetStatusResponse$inboundSchema;
-  /** @deprecated use `GetStatusResponse$outboundSchema` instead. */
-  export const outboundSchema = GetStatusResponse$outboundSchema;
-  /** @deprecated use `GetStatusResponse$Outbound` instead. */
-  export type Outbound = GetStatusResponse$Outbound;
-}
-
-export function getStatusResponseToJSON(
-  getStatusResponse: GetStatusResponse,
-): string {
-  return JSON.stringify(
-    GetStatusResponse$outboundSchema.parse(getStatusResponse),
-  );
-}
 
 export function getStatusResponseFromJSON(
   jsonString: string,

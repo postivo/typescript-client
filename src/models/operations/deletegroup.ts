@@ -41,39 +41,13 @@ export type DeleteGroupRequest = {
 
 export type DeleteGroupResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const ContactHandling$inboundSchema: z.ZodNativeEnum<
-  typeof ContactHandling
-> = z.nativeEnum(ContactHandling);
 
 /** @internal */
 export const ContactHandling$outboundSchema: z.ZodNativeEnum<
   typeof ContactHandling
-> = ContactHandling$inboundSchema;
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ContactHandling$ {
-  /** @deprecated use `ContactHandling$inboundSchema` instead. */
-  export const inboundSchema = ContactHandling$inboundSchema;
-  /** @deprecated use `ContactHandling$outboundSchema` instead. */
-  export const outboundSchema = ContactHandling$outboundSchema;
-}
-
-/** @internal */
-export const DeleteGroupRequest$inboundSchema: z.ZodType<
-  DeleteGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-  contacts: ContactHandling$inboundSchema.default("detach"),
-});
+> = z.nativeEnum(ContactHandling);
 
 /** @internal */
 export type DeleteGroupRequest$Outbound = {
@@ -91,34 +65,11 @@ export const DeleteGroupRequest$outboundSchema: z.ZodType<
   contacts: ContactHandling$outboundSchema.default("detach"),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteGroupRequest$ {
-  /** @deprecated use `DeleteGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = DeleteGroupRequest$inboundSchema;
-  /** @deprecated use `DeleteGroupRequest$outboundSchema` instead. */
-  export const outboundSchema = DeleteGroupRequest$outboundSchema;
-  /** @deprecated use `DeleteGroupRequest$Outbound` instead. */
-  export type Outbound = DeleteGroupRequest$Outbound;
-}
-
 export function deleteGroupRequestToJSON(
   deleteGroupRequest: DeleteGroupRequest,
 ): string {
   return JSON.stringify(
     DeleteGroupRequest$outboundSchema.parse(deleteGroupRequest),
-  );
-}
-
-export function deleteGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<DeleteGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeleteGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteGroupRequest' from JSON`,
   );
 }
 
@@ -128,56 +79,14 @@ export const DeleteGroupResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type DeleteGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const DeleteGroupResponse$outboundSchema: z.ZodType<
-  DeleteGroupResponse$Outbound,
-  z.ZodTypeDef,
-  DeleteGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteGroupResponse$ {
-  /** @deprecated use `DeleteGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = DeleteGroupResponse$inboundSchema;
-  /** @deprecated use `DeleteGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = DeleteGroupResponse$outboundSchema;
-  /** @deprecated use `DeleteGroupResponse$Outbound` instead. */
-  export type Outbound = DeleteGroupResponse$Outbound;
-}
-
-export function deleteGroupResponseToJSON(
-  deleteGroupResponse: DeleteGroupResponse,
-): string {
-  return JSON.stringify(
-    DeleteGroupResponse$outboundSchema.parse(deleteGroupResponse),
-  );
-}
 
 export function deleteGroupResponseFromJSON(
   jsonString: string,

@@ -1,5 +1,4 @@
-# Groups
-(*addressBook.groups*)
+# AddressBook.Groups
 
 ## Overview
 

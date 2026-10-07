@@ -28,44 +28,6 @@ export const ShipmentPriceResponseResult$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type ShipmentPriceResponseResult$Outbound =
-  | Array<models.ShipmentPrice$Outbound>
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const ShipmentPriceResponseResult$outboundSchema: z.ZodType<
-  ShipmentPriceResponseResult$Outbound,
-  z.ZodTypeDef,
-  ShipmentPriceResponseResult
-> = z.union([
-  z.array(models.ShipmentPrice$outboundSchema),
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentPriceResponseResult$ {
-  /** @deprecated use `ShipmentPriceResponseResult$inboundSchema` instead. */
-  export const inboundSchema = ShipmentPriceResponseResult$inboundSchema;
-  /** @deprecated use `ShipmentPriceResponseResult$outboundSchema` instead. */
-  export const outboundSchema = ShipmentPriceResponseResult$outboundSchema;
-  /** @deprecated use `ShipmentPriceResponseResult$Outbound` instead. */
-  export type Outbound = ShipmentPriceResponseResult$Outbound;
-}
-
-export function shipmentPriceResponseResultToJSON(
-  shipmentPriceResponseResult: ShipmentPriceResponseResult,
-): string {
-  return JSON.stringify(
-    ShipmentPriceResponseResult$outboundSchema.parse(
-      shipmentPriceResponseResult,
-    ),
-  );
-}
-
 export function shipmentPriceResponseResultFromJSON(
   jsonString: string,
 ): SafeParseResult<ShipmentPriceResponseResult, SDKValidationError> {
@@ -82,7 +44,7 @@ export const ShipmentPriceResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     z.array(models.ShipmentPrice$inboundSchema),
     models.ErrorResponse$inboundSchema,
@@ -93,51 +55,6 @@ export const ShipmentPriceResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type ShipmentPriceResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: Array<models.ShipmentPrice$Outbound> | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const ShipmentPriceResponse$outboundSchema: z.ZodType<
-  ShipmentPriceResponse$Outbound,
-  z.ZodTypeDef,
-  ShipmentPriceResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    z.array(models.ShipmentPrice$outboundSchema),
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentPriceResponse$ {
-  /** @deprecated use `ShipmentPriceResponse$inboundSchema` instead. */
-  export const inboundSchema = ShipmentPriceResponse$inboundSchema;
-  /** @deprecated use `ShipmentPriceResponse$outboundSchema` instead. */
-  export const outboundSchema = ShipmentPriceResponse$outboundSchema;
-  /** @deprecated use `ShipmentPriceResponse$Outbound` instead. */
-  export type Outbound = ShipmentPriceResponse$Outbound;
-}
-
-export function shipmentPriceResponseToJSON(
-  shipmentPriceResponse: ShipmentPriceResponse,
-): string {
-  return JSON.stringify(
-    ShipmentPriceResponse$outboundSchema.parse(shipmentPriceResponse),
-  );
-}
 
 export function shipmentPriceResponseFromJSON(
   jsonString: string,

@@ -18,17 +18,8 @@ export type DeleteSenderRequest = {
 
 export type DeleteSenderResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const DeleteSenderRequest$inboundSchema: z.ZodType<
-  DeleteSenderRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  id: z.number().int(),
-});
 
 /** @internal */
 export type DeleteSenderRequest$Outbound = {
@@ -44,34 +35,11 @@ export const DeleteSenderRequest$outboundSchema: z.ZodType<
   id: z.number().int(),
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteSenderRequest$ {
-  /** @deprecated use `DeleteSenderRequest$inboundSchema` instead. */
-  export const inboundSchema = DeleteSenderRequest$inboundSchema;
-  /** @deprecated use `DeleteSenderRequest$outboundSchema` instead. */
-  export const outboundSchema = DeleteSenderRequest$outboundSchema;
-  /** @deprecated use `DeleteSenderRequest$Outbound` instead. */
-  export type Outbound = DeleteSenderRequest$Outbound;
-}
-
 export function deleteSenderRequestToJSON(
   deleteSenderRequest: DeleteSenderRequest,
 ): string {
   return JSON.stringify(
     DeleteSenderRequest$outboundSchema.parse(deleteSenderRequest),
-  );
-}
-
-export function deleteSenderRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<DeleteSenderRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DeleteSenderRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DeleteSenderRequest' from JSON`,
   );
 }
 
@@ -81,56 +49,14 @@ export const DeleteSenderResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type DeleteSenderResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const DeleteSenderResponse$outboundSchema: z.ZodType<
-  DeleteSenderResponse$Outbound,
-  z.ZodTypeDef,
-  DeleteSenderResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DeleteSenderResponse$ {
-  /** @deprecated use `DeleteSenderResponse$inboundSchema` instead. */
-  export const inboundSchema = DeleteSenderResponse$inboundSchema;
-  /** @deprecated use `DeleteSenderResponse$outboundSchema` instead. */
-  export const outboundSchema = DeleteSenderResponse$outboundSchema;
-  /** @deprecated use `DeleteSenderResponse$Outbound` instead. */
-  export type Outbound = DeleteSenderResponse$Outbound;
-}
-
-export function deleteSenderResponseToJSON(
-  deleteSenderResponse: DeleteSenderResponse,
-): string {
-  return JSON.stringify(
-    DeleteSenderResponse$outboundSchema.parse(deleteSenderResponse),
-  );
-}
 
 export function deleteSenderResponseFromJSON(
   jsonString: string,

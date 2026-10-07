@@ -28,42 +28,6 @@ export const AddContactResponseResult$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type AddContactResponseResult$Outbound =
-  | models.ContactResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const AddContactResponseResult$outboundSchema: z.ZodType<
-  AddContactResponseResult$Outbound,
-  z.ZodTypeDef,
-  AddContactResponseResult
-> = z.union([
-  models.ContactResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactResponseResult$ {
-  /** @deprecated use `AddContactResponseResult$inboundSchema` instead. */
-  export const inboundSchema = AddContactResponseResult$inboundSchema;
-  /** @deprecated use `AddContactResponseResult$outboundSchema` instead. */
-  export const outboundSchema = AddContactResponseResult$outboundSchema;
-  /** @deprecated use `AddContactResponseResult$Outbound` instead. */
-  export type Outbound = AddContactResponseResult$Outbound;
-}
-
-export function addContactResponseResultToJSON(
-  addContactResponseResult: AddContactResponseResult,
-): string {
-  return JSON.stringify(
-    AddContactResponseResult$outboundSchema.parse(addContactResponseResult),
-  );
-}
-
 export function addContactResponseResultFromJSON(
   jsonString: string,
 ): SafeParseResult<AddContactResponseResult, SDKValidationError> {
@@ -80,7 +44,7 @@ export const AddContactResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.ContactResponse$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -91,51 +55,6 @@ export const AddContactResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type AddContactResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ContactResponse$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const AddContactResponse$outboundSchema: z.ZodType<
-  AddContactResponse$Outbound,
-  z.ZodTypeDef,
-  AddContactResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.ContactResponse$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactResponse$ {
-  /** @deprecated use `AddContactResponse$inboundSchema` instead. */
-  export const inboundSchema = AddContactResponse$inboundSchema;
-  /** @deprecated use `AddContactResponse$outboundSchema` instead. */
-  export const outboundSchema = AddContactResponse$outboundSchema;
-  /** @deprecated use `AddContactResponse$Outbound` instead. */
-  export type Outbound = AddContactResponse$Outbound;
-}
-
-export function addContactResponseToJSON(
-  addContactResponse: AddContactResponse,
-): string {
-  return JSON.stringify(
-    AddContactResponse$outboundSchema.parse(addContactResponse),
-  );
-}
 
 export function addContactResponseFromJSON(
   jsonString: string,

@@ -5,12 +5,7 @@
 import * as z from "zod/v3";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
-import {
-  ErrorResponse,
-  ErrorResponse$inboundSchema,
-  ErrorResponse$Outbound,
-  ErrorResponse$outboundSchema,
-} from "./errorresponse.js";
+import { ErrorResponse, ErrorResponse$inboundSchema } from "./errorresponse.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
@@ -41,45 +36,6 @@ export const ShipmentCancellation$inboundSchema: z.ZodType<
   status: z.number().int().optional(),
   error: z.nullable(ErrorResponse$inboundSchema).optional(),
 });
-
-/** @internal */
-export type ShipmentCancellation$Outbound = {
-  id?: string | undefined;
-  status?: number | undefined;
-  error?: ErrorResponse$Outbound | null | undefined;
-};
-
-/** @internal */
-export const ShipmentCancellation$outboundSchema: z.ZodType<
-  ShipmentCancellation$Outbound,
-  z.ZodTypeDef,
-  ShipmentCancellation
-> = z.object({
-  id: z.string().optional(),
-  status: z.number().int().optional(),
-  error: z.nullable(ErrorResponse$outboundSchema).optional(),
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ShipmentCancellation$ {
-  /** @deprecated use `ShipmentCancellation$inboundSchema` instead. */
-  export const inboundSchema = ShipmentCancellation$inboundSchema;
-  /** @deprecated use `ShipmentCancellation$outboundSchema` instead. */
-  export const outboundSchema = ShipmentCancellation$outboundSchema;
-  /** @deprecated use `ShipmentCancellation$Outbound` instead. */
-  export type Outbound = ShipmentCancellation$Outbound;
-}
-
-export function shipmentCancellationToJSON(
-  shipmentCancellation: ShipmentCancellation,
-): string {
-  return JSON.stringify(
-    ShipmentCancellation$outboundSchema.parse(shipmentCancellation),
-  );
-}
 
 export function shipmentCancellationFromJSON(
   jsonString: string,

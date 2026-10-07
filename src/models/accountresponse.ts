@@ -70,21 +70,6 @@ export const AccountType$inboundSchema: z.ZodNativeEnum<typeof AccountType> = z
   .nativeEnum(AccountType);
 
 /** @internal */
-export const AccountType$outboundSchema: z.ZodNativeEnum<typeof AccountType> =
-  AccountType$inboundSchema;
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AccountType$ {
-  /** @deprecated use `AccountType$inboundSchema` instead. */
-  export const inboundSchema = AccountType$inboundSchema;
-  /** @deprecated use `AccountType$outboundSchema` instead. */
-  export const outboundSchema = AccountType$outboundSchema;
-}
-
-/** @internal */
 export const AccountResponse$inboundSchema: z.ZodType<
   AccountResponse,
   z.ZodTypeDef,
@@ -104,58 +89,6 @@ export const AccountResponse$inboundSchema: z.ZodType<
     "is_main": "isMain",
   });
 });
-
-/** @internal */
-export type AccountResponse$Outbound = {
-  login?: string | undefined;
-  account_type?: string | undefined;
-  limit?: number | undefined;
-  credit?: number | undefined;
-  subcredit?: number | null | undefined;
-  currency?: string | undefined;
-  name?: string | undefined;
-  is_main?: boolean | undefined;
-};
-
-/** @internal */
-export const AccountResponse$outboundSchema: z.ZodType<
-  AccountResponse$Outbound,
-  z.ZodTypeDef,
-  AccountResponse
-> = z.object({
-  login: z.string().optional(),
-  accountType: AccountType$outboundSchema.optional(),
-  limit: z.number().optional(),
-  credit: z.number().optional(),
-  subcredit: z.nullable(z.number()).optional(),
-  currency: z.string().optional(),
-  name: z.string().optional(),
-  isMain: z.boolean().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    accountType: "account_type",
-    isMain: "is_main",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AccountResponse$ {
-  /** @deprecated use `AccountResponse$inboundSchema` instead. */
-  export const inboundSchema = AccountResponse$inboundSchema;
-  /** @deprecated use `AccountResponse$outboundSchema` instead. */
-  export const outboundSchema = AccountResponse$outboundSchema;
-  /** @deprecated use `AccountResponse$Outbound` instead. */
-  export type Outbound = AccountResponse$Outbound;
-}
-
-export function accountResponseToJSON(
-  accountResponse: AccountResponse,
-): string {
-  return JSON.stringify(AccountResponse$outboundSchema.parse(accountResponse));
-}
 
 export function accountResponseFromJSON(
   jsonString: string,

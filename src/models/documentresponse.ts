@@ -37,48 +37,6 @@ export const DocumentResponse$inboundSchema: z.ZodType<
   });
 });
 
-/** @internal */
-export type DocumentResponse$Outbound = {
-  mime_type: string;
-  file_stream?: string | undefined;
-};
-
-/** @internal */
-export const DocumentResponse$outboundSchema: z.ZodType<
-  DocumentResponse$Outbound,
-  z.ZodTypeDef,
-  DocumentResponse
-> = z.object({
-  mimeType: z.string(),
-  fileStream: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    mimeType: "mime_type",
-    fileStream: "file_stream",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DocumentResponse$ {
-  /** @deprecated use `DocumentResponse$inboundSchema` instead. */
-  export const inboundSchema = DocumentResponse$inboundSchema;
-  /** @deprecated use `DocumentResponse$outboundSchema` instead. */
-  export const outboundSchema = DocumentResponse$outboundSchema;
-  /** @deprecated use `DocumentResponse$Outbound` instead. */
-  export type Outbound = DocumentResponse$Outbound;
-}
-
-export function documentResponseToJSON(
-  documentResponse: DocumentResponse,
-): string {
-  return JSON.stringify(
-    DocumentResponse$outboundSchema.parse(documentResponse),
-  );
-}
-
 export function documentResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<DocumentResponse, SDKValidationError> {

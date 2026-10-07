@@ -1,5 +1,4 @@
 # Shipments
-(*shipments*)
 
 ## Overview
 
@@ -175,9 +174,247 @@ Send a shipment to one or multiple recipients in a single request. Provide a `Sh
 
 The system accepts up to **50** recipients per call. For larger volumes, split the operation into multiple requests.
 
-### Example Usage
+### Example Usage: advanced_config
 
-<!-- UsageSnippet language="typescript" operationID="shipmentDispatch" method="post" path="/shipment" -->
+<!-- UsageSnippet language="typescript" operationID="shipmentDispatch" method="post" path="/shipment" example="advanced_config" -->
+```typescript
+import { Client } from "@postivo/postivo-client";
+import { RFCDate } from "@postivo/postivo-client/types";
+
+const client = new Client({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const result = await client.shipments.dispatch({
+    recipients: {
+      name: "Jan Nowak",
+      name2: "Firma testowa Sp. z o.o.",
+      address: "ul. Testowa",
+      homeNumber: "23",
+      flatNumber: "2",
+      postCode: "00-999",
+      city: "Warszawa",
+      country: "PL",
+      phoneNumber: "+48666666666",
+      postscript: "Komunikat",
+      customId: "1234567890",
+    },
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+      inlineConfig: {
+        carrierId: 4,
+        serviceId: 16,
+        paperId: 1,
+        colorPrint: true,
+        duplexPrint: false,
+        envelopeId: 454,
+        envelopeColorPrint: true,
+      },
+      senderId: 1,
+      dispatchDate: new RFCDate("2025-10-21"),
+      callback: {
+        url: "https://example.com/test",
+        userToken: "75gh28hugjy8gfv6...",
+      },
+      miscInfo: {
+        mpk: "dział sprzedaży",
+        orderName: "Wysyłka zaproszeń do Klientów",
+      },
+      rotateDocuments: true,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { ClientCore } from "@postivo/postivo-client/core.js";
+import { shipmentsDispatch } from "@postivo/postivo-client/funcs/shipmentsDispatch.js";
+import { RFCDate } from "@postivo/postivo-client/types";
+
+// Use `ClientCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const client = new ClientCore({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const res = await shipmentsDispatch(client, {
+    recipients: {
+      name: "Jan Nowak",
+      name2: "Firma testowa Sp. z o.o.",
+      address: "ul. Testowa",
+      homeNumber: "23",
+      flatNumber: "2",
+      postCode: "00-999",
+      city: "Warszawa",
+      country: "PL",
+      phoneNumber: "+48666666666",
+      postscript: "Komunikat",
+      customId: "1234567890",
+    },
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+      inlineConfig: {
+        carrierId: 4,
+        serviceId: 16,
+        paperId: 1,
+        colorPrint: true,
+        duplexPrint: false,
+        envelopeId: 454,
+        envelopeColorPrint: true,
+      },
+      senderId: 1,
+      dispatchDate: new RFCDate("2025-10-21"),
+      callback: {
+        url: "https://example.com/test",
+        userToken: "75gh28hugjy8gfv6...",
+      },
+      miscInfo: {
+        mpk: "dział sprzedaży",
+        orderName: "Wysyłka zaproszeń do Klientów",
+      },
+      rotateDocuments: true,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("shipmentsDispatch failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: multi
+
+<!-- UsageSnippet language="typescript" operationID="shipmentDispatch" method="post" path="/shipment" example="multi" -->
+```typescript
+import { Client } from "@postivo/postivo-client";
+
+const client = new Client({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const result = await client.shipments.dispatch({
+    recipients: [
+      {
+        name: "Jan Nowak",
+        name2: "Firma testowa Sp. z o.o.",
+        address: "ul. Testowa",
+        homeNumber: "23",
+        flatNumber: "2",
+        postCode: "00-999",
+        city: "Warszawa",
+        country: "PL",
+        phoneNumber: "+48666666666",
+        postscript: "Komunikat",
+        customId: "1234567890",
+      },
+      {
+        name: "Andrzej Kowalski",
+        address: "ul. Przykładowa 45/321",
+        postCode: "34-001",
+        city: "Kraków",
+        country: "PL",
+        phoneNumber: "+48999888777",
+        customId: "my-id-1113",
+      },
+    ],
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { ClientCore } from "@postivo/postivo-client/core.js";
+import { shipmentsDispatch } from "@postivo/postivo-client/funcs/shipmentsDispatch.js";
+
+// Use `ClientCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const client = new ClientCore({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const res = await shipmentsDispatch(client, {
+    recipients: [
+      {
+        name: "Jan Nowak",
+        name2: "Firma testowa Sp. z o.o.",
+        address: "ul. Testowa",
+        homeNumber: "23",
+        flatNumber: "2",
+        postCode: "00-999",
+        city: "Warszawa",
+        country: "PL",
+        phoneNumber: "+48666666666",
+        postscript: "Komunikat",
+        customId: "1234567890",
+      },
+      {
+        name: "Andrzej Kowalski",
+        address: "ul. Przykładowa 45/321",
+        postCode: "34-001",
+        city: "Kraków",
+        country: "PL",
+        phoneNumber: "+48999888777",
+        customId: "my-id-1113",
+      },
+    ],
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("shipmentsDispatch failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: single
+
+<!-- UsageSnippet language="typescript" operationID="shipmentDispatch" method="post" path="/shipment" example="single" -->
 ```typescript
 import { Client } from "@postivo/postivo-client";
 
@@ -377,9 +614,225 @@ Check the price of a shipment for one or multiple recipients. Provide a `Shipmen
 
 The system accepts up to **50** recipients per call. For larger volumes, split the operation into multiple requests.
 
-### Example Usage
+### Example Usage: advanced_config
 
-<!-- UsageSnippet language="typescript" operationID="shipmentPrice" method="post" path="/shipment/price" -->
+<!-- UsageSnippet language="typescript" operationID="shipmentPrice" method="post" path="/shipment/price" example="advanced_config" -->
+```typescript
+import { Client } from "@postivo/postivo-client";
+
+const client = new Client({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const result = await client.shipments.price({
+    recipients: {
+      name: "Jan Nowak",
+      name2: "Firma testowa Sp. z o.o.",
+      address: "ul. Testowa",
+      homeNumber: "23",
+      flatNumber: "2",
+      postCode: "00-999",
+      city: "Warszawa",
+      country: "PL",
+      phoneNumber: "+48666666666",
+      postscript: "Komunikat",
+      customId: "1234567890",
+    },
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+      inlineConfig: {
+        carrierId: 4,
+        serviceId: 16,
+        paperId: 1,
+        colorPrint: true,
+        duplexPrint: false,
+        envelopeId: 454,
+        envelopeColorPrint: true,
+      },
+      senderId: 1,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { ClientCore } from "@postivo/postivo-client/core.js";
+import { shipmentsPrice } from "@postivo/postivo-client/funcs/shipmentsPrice.js";
+
+// Use `ClientCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const client = new ClientCore({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const res = await shipmentsPrice(client, {
+    recipients: {
+      name: "Jan Nowak",
+      name2: "Firma testowa Sp. z o.o.",
+      address: "ul. Testowa",
+      homeNumber: "23",
+      flatNumber: "2",
+      postCode: "00-999",
+      city: "Warszawa",
+      country: "PL",
+      phoneNumber: "+48666666666",
+      postscript: "Komunikat",
+      customId: "1234567890",
+    },
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+      inlineConfig: {
+        carrierId: 4,
+        serviceId: 16,
+        paperId: 1,
+        colorPrint: true,
+        duplexPrint: false,
+        envelopeId: 454,
+        envelopeColorPrint: true,
+      },
+      senderId: 1,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("shipmentsPrice failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: multi
+
+<!-- UsageSnippet language="typescript" operationID="shipmentPrice" method="post" path="/shipment/price" example="multi" -->
+```typescript
+import { Client } from "@postivo/postivo-client";
+
+const client = new Client({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const result = await client.shipments.price({
+    recipients: [
+      {
+        name: "Jan Nowak",
+        name2: "Firma testowa Sp. z o.o.",
+        address: "ul. Testowa",
+        homeNumber: "23",
+        flatNumber: "2",
+        postCode: "00-999",
+        city: "Warszawa",
+        country: "PL",
+        phoneNumber: "+48666666666",
+        postscript: "Komunikat",
+        customId: "1234567890",
+      },
+      {
+        name: "Andrzej Kowalski",
+        address: "ul. Przykładowa 45/321",
+        postCode: "34-001",
+        city: "Kraków",
+        country: "PL",
+        phoneNumber: "+48999888777",
+        customId: "my-id-1113",
+      },
+    ],
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { ClientCore } from "@postivo/postivo-client/core.js";
+import { shipmentsPrice } from "@postivo/postivo-client/funcs/shipmentsPrice.js";
+
+// Use `ClientCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const client = new ClientCore({
+  bearer: "<YOUR API ACCESS TOKEN>",
+});
+
+async function run() {
+  const res = await shipmentsPrice(client, {
+    recipients: [
+      {
+        name: "Jan Nowak",
+        name2: "Firma testowa Sp. z o.o.",
+        address: "ul. Testowa",
+        homeNumber: "23",
+        flatNumber: "2",
+        postCode: "00-999",
+        city: "Warszawa",
+        country: "PL",
+        phoneNumber: "+48666666666",
+        postscript: "Komunikat",
+        customId: "1234567890",
+      },
+      {
+        name: "Andrzej Kowalski",
+        address: "ul. Przykładowa 45/321",
+        postCode: "34-001",
+        city: "Kraków",
+        country: "PL",
+        phoneNumber: "+48999888777",
+        customId: "my-id-1113",
+      },
+    ],
+    documents: {
+      fileStream: "<document content encoded to base64>",
+      fileName: "document.pdf",
+    },
+    options: {
+      predefinedConfigId: 2670,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("shipmentsPrice failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: single
+
+<!-- UsageSnippet language="typescript" operationID="shipmentPrice" method="post" path="/shipment/price" example="single" -->
 ```typescript
 import { Client } from "@postivo/postivo-client";
 

@@ -4,9 +4,6 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Select shipment recipient data from the Address Book by external (custom) ID.
@@ -29,23 +26,6 @@ export type RecipientFromAddressBookByExternalId = {
    */
   postscript?: string | null | undefined;
 };
-
-/** @internal */
-export const RecipientFromAddressBookByExternalId$inboundSchema: z.ZodType<
-  RecipientFromAddressBookByExternalId,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-  inherited: z.boolean().default(false),
-  custom_id: z.nullable(z.string()).default(null),
-  postscript: z.nullable(z.string()).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-    "custom_id": "customId",
-  });
-});
 
 /** @internal */
 export type RecipientFromAddressBookByExternalId$Outbound = {
@@ -72,21 +52,6 @@ export const RecipientFromAddressBookByExternalId$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace RecipientFromAddressBookByExternalId$ {
-  /** @deprecated use `RecipientFromAddressBookByExternalId$inboundSchema` instead. */
-  export const inboundSchema =
-    RecipientFromAddressBookByExternalId$inboundSchema;
-  /** @deprecated use `RecipientFromAddressBookByExternalId$outboundSchema` instead. */
-  export const outboundSchema =
-    RecipientFromAddressBookByExternalId$outboundSchema;
-  /** @deprecated use `RecipientFromAddressBookByExternalId$Outbound` instead. */
-  export type Outbound = RecipientFromAddressBookByExternalId$Outbound;
-}
-
 export function recipientFromAddressBookByExternalIdToJSON(
   recipientFromAddressBookByExternalId: RecipientFromAddressBookByExternalId,
 ): string {
@@ -94,16 +59,5 @@ export function recipientFromAddressBookByExternalIdToJSON(
     RecipientFromAddressBookByExternalId$outboundSchema.parse(
       recipientFromAddressBookByExternalId,
     ),
-  );
-}
-
-export function recipientFromAddressBookByExternalIdFromJSON(
-  jsonString: string,
-): SafeParseResult<RecipientFromAddressBookByExternalId, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      RecipientFromAddressBookByExternalId$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'RecipientFromAddressBookByExternalId' from JSON`,
   );
 }

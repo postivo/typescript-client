@@ -209,12 +209,12 @@ run();
 <details open>
 <summary>Available methods</summary>
 
-### [accounts](docs/sdks/accounts/README.md)
+### [Accounts](docs/sdks/accounts/README.md)
 
 * [get](docs/sdks/accounts/README.md#get) - Retrieve account details
 * [getSubaccount](docs/sdks/accounts/README.md#getsubaccount) - Get subaccount details
 
-#### [addressBook.contacts](docs/sdks/contacts/README.md)
+### [AddressBook.Contacts](docs/sdks/contacts/README.md)
 
 * [list](docs/sdks/contacts/README.md#list) - List contacts
 * [add](docs/sdks/contacts/README.md#add) - Add a new contact
@@ -224,7 +224,7 @@ run();
 * [removeFromGroup](docs/sdks/contacts/README.md#removefromgroup) - Remove a contact from a group
 * [addToGroup](docs/sdks/contacts/README.md#addtogroup) - Add a contact to a group
 
-#### [addressBook.contacts.byExtId](docs/sdks/byextid/README.md)
+#### [AddressBook.Contacts.ByExtId](docs/sdks/byextid/README.md)
 
 * [get](docs/sdks/byextid/README.md#get) - Retrieve contact details by EXT_ID
 * [update](docs/sdks/byextid/README.md#update) - Update a contact by EXT_ID
@@ -232,7 +232,7 @@ run();
 * [removeFromGroup](docs/sdks/byextid/README.md#removefromgroup) - Remove a contact from a group by EXT_ID
 * [addToGroup](docs/sdks/byextid/README.md#addtogroup) - Add a contact to a group by EXT_ID
 
-#### [addressBook.groups](docs/sdks/groups/README.md)
+### [AddressBook.Groups](docs/sdks/groups/README.md)
 
 * [list](docs/sdks/groups/README.md#list) - List groups
 * [add](docs/sdks/groups/README.md#add) - Add a new group
@@ -240,23 +240,23 @@ run();
 * [update](docs/sdks/groups/README.md#update) - Update a group
 * [delete](docs/sdks/groups/README.md#delete) - Delete a group
 
-### [common](docs/sdks/common/README.md)
+### [Common](docs/sdks/common/README.md)
 
 * [ping](docs/sdks/common/README.md#ping) - Check API availability and version
 
-### [metadata](docs/sdks/metadata/README.md)
+### [Metadata](docs/sdks/metadata/README.md)
 
 * [list](docs/sdks/metadata/README.md#list) - List metadata
 * [getPredefinedConfigs](docs/sdks/metadata/README.md#getpredefinedconfigs) - List predefined configs
 
-### [senders](docs/sdks/senders/README.md)
+### [Senders](docs/sdks/senders/README.md)
 
 * [list](docs/sdks/senders/README.md#list) - List senders
 * [add](docs/sdks/senders/README.md#add) - Add a new sender
 * [delete](docs/sdks/senders/README.md#delete) - Delete a sender
 * [verify](docs/sdks/senders/README.md#verify) - Verify sender
 
-### [shipments](docs/sdks/shipments/README.md)
+### [Shipments](docs/sdks/shipments/README.md)
 
 * [status](docs/sdks/shipments/README.md#status) - Retrieve shipment details with status events
 * [cancel](docs/sdks/shipments/README.md#cancel) - Cancel shipments
@@ -473,7 +473,7 @@ You can override the default server globally by passing a server name to the `se
 import { Client } from "@postivo/postivo-client";
 
 const client = new Client({
-  server: "sandbox",
+  server: "prod",
   bearer: "<YOUR API ACCESS TOKEN>",
 });
 
@@ -522,19 +522,23 @@ The `HTTPClient` constructor takes an optional `fetcher` argument that can be
 used to integrate a third-party HTTP client or when writing tests to mock out
 the HTTP client and feed in fixtures.
 
-The following example shows how to use the `"beforeRequest"` hook to to add a
-custom header and a timeout to requests and how to use the `"requestError"` hook
-to log errors:
+The following example shows how to:
+- route requests through a proxy server using [undici](https://www.npmjs.com/package/undici)'s ProxyAgent
+- use the `"beforeRequest"` hook to add a custom header and a timeout to requests
+- use the `"requestError"` hook to log errors
 
 ```typescript
 import { Client } from "@postivo/postivo-client";
+import { ProxyAgent } from "undici";
 import { HTTPClient } from "@postivo/postivo-client/lib/http";
 
+const dispatcher = new ProxyAgent("http://proxy.example.com:8080");
+
 const httpClient = new HTTPClient({
-  // fetcher takes a function that has the same signature as native `fetch`.
-  fetcher: (request) => {
-    return fetch(request);
-  }
+  // 'fetcher' takes a function that has the same signature as native 'fetch'.
+  fetcher: (input, init) =>
+    // 'dispatcher' is specific to undici and not part of the standard Fetch API.
+    fetch(input, { ...init, dispatcher } as RequestInit),
 });
 
 httpClient.addHook("beforeRequest", (request) => {

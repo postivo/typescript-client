@@ -22,23 +22,8 @@ export type AddContactByExtIdToGroupRequest = {
 
 export type AddContactByExtIdToGroupResponse = {
   headers: { [k: string]: Array<string> };
-  result: models.ErrorResponse;
+  result?: models.ErrorResponse | undefined;
 };
-
-/** @internal */
-export const AddContactByExtIdToGroupRequest$inboundSchema: z.ZodType<
-  AddContactByExtIdToGroupRequest,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  ext_id: z.string(),
-  group_id: z.number().int(),
-}).transform((v) => {
-  return remap$(v, {
-    "ext_id": "extId",
-    "group_id": "groupId",
-  });
-});
 
 /** @internal */
 export type AddContactByExtIdToGroupRequest$Outbound = {
@@ -61,19 +46,6 @@ export const AddContactByExtIdToGroupRequest$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactByExtIdToGroupRequest$ {
-  /** @deprecated use `AddContactByExtIdToGroupRequest$inboundSchema` instead. */
-  export const inboundSchema = AddContactByExtIdToGroupRequest$inboundSchema;
-  /** @deprecated use `AddContactByExtIdToGroupRequest$outboundSchema` instead. */
-  export const outboundSchema = AddContactByExtIdToGroupRequest$outboundSchema;
-  /** @deprecated use `AddContactByExtIdToGroupRequest$Outbound` instead. */
-  export type Outbound = AddContactByExtIdToGroupRequest$Outbound;
-}
-
 export function addContactByExtIdToGroupRequestToJSON(
   addContactByExtIdToGroupRequest: AddContactByExtIdToGroupRequest,
 ): string {
@@ -84,74 +56,20 @@ export function addContactByExtIdToGroupRequestToJSON(
   );
 }
 
-export function addContactByExtIdToGroupRequestFromJSON(
-  jsonString: string,
-): SafeParseResult<AddContactByExtIdToGroupRequest, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => AddContactByExtIdToGroupRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'AddContactByExtIdToGroupRequest' from JSON`,
-  );
-}
-
 /** @internal */
 export const AddContactByExtIdToGroupResponse$inboundSchema: z.ZodType<
   AddContactByExtIdToGroupResponse,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
-  Result: models.ErrorResponse$inboundSchema,
+  Headers: z.record(z.array(z.string())).default({}),
+  Result: models.ErrorResponse$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "Headers": "headers",
     "Result": "result",
   });
 });
-
-/** @internal */
-export type AddContactByExtIdToGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const AddContactByExtIdToGroupResponse$outboundSchema: z.ZodType<
-  AddContactByExtIdToGroupResponse$Outbound,
-  z.ZodTypeDef,
-  AddContactByExtIdToGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: models.ErrorResponse$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddContactByExtIdToGroupResponse$ {
-  /** @deprecated use `AddContactByExtIdToGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = AddContactByExtIdToGroupResponse$inboundSchema;
-  /** @deprecated use `AddContactByExtIdToGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = AddContactByExtIdToGroupResponse$outboundSchema;
-  /** @deprecated use `AddContactByExtIdToGroupResponse$Outbound` instead. */
-  export type Outbound = AddContactByExtIdToGroupResponse$Outbound;
-}
-
-export function addContactByExtIdToGroupResponseToJSON(
-  addContactByExtIdToGroupResponse: AddContactByExtIdToGroupResponse,
-): string {
-  return JSON.stringify(
-    AddContactByExtIdToGroupResponse$outboundSchema.parse(
-      addContactByExtIdToGroupResponse,
-    ),
-  );
-}
 
 export function addContactByExtIdToGroupResponseFromJSON(
   jsonString: string,

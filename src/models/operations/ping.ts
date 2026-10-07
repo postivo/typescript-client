@@ -20,38 +20,6 @@ export const PingResponse$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type PingResponse$Outbound =
-  | models.PingResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const PingResponse$outboundSchema: z.ZodType<
-  PingResponse$Outbound,
-  z.ZodTypeDef,
-  PingResponse
-> = z.union([
-  models.PingResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace PingResponse$ {
-  /** @deprecated use `PingResponse$inboundSchema` instead. */
-  export const inboundSchema = PingResponse$inboundSchema;
-  /** @deprecated use `PingResponse$outboundSchema` instead. */
-  export const outboundSchema = PingResponse$outboundSchema;
-  /** @deprecated use `PingResponse$Outbound` instead. */
-  export type Outbound = PingResponse$Outbound;
-}
-
-export function pingResponseToJSON(pingResponse: PingResponse): string {
-  return JSON.stringify(PingResponse$outboundSchema.parse(pingResponse));
-}
-
 export function pingResponseFromJSON(
   jsonString: string,
 ): SafeParseResult<PingResponse, SDKValidationError> {

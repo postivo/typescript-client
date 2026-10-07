@@ -28,42 +28,6 @@ export const AddGroupResponseResult$inboundSchema: z.ZodType<
   models.ErrorResponse$inboundSchema,
 ]);
 
-/** @internal */
-export type AddGroupResponseResult$Outbound =
-  | models.GroupResponse$Outbound
-  | models.ErrorResponse$Outbound;
-
-/** @internal */
-export const AddGroupResponseResult$outboundSchema: z.ZodType<
-  AddGroupResponseResult$Outbound,
-  z.ZodTypeDef,
-  AddGroupResponseResult
-> = z.union([
-  models.GroupResponse$outboundSchema,
-  models.ErrorResponse$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddGroupResponseResult$ {
-  /** @deprecated use `AddGroupResponseResult$inboundSchema` instead. */
-  export const inboundSchema = AddGroupResponseResult$inboundSchema;
-  /** @deprecated use `AddGroupResponseResult$outboundSchema` instead. */
-  export const outboundSchema = AddGroupResponseResult$outboundSchema;
-  /** @deprecated use `AddGroupResponseResult$Outbound` instead. */
-  export type Outbound = AddGroupResponseResult$Outbound;
-}
-
-export function addGroupResponseResultToJSON(
-  addGroupResponseResult: AddGroupResponseResult,
-): string {
-  return JSON.stringify(
-    AddGroupResponseResult$outboundSchema.parse(addGroupResponseResult),
-  );
-}
-
 export function addGroupResponseResultFromJSON(
   jsonString: string,
 ): SafeParseResult<AddGroupResponseResult, SDKValidationError> {
@@ -80,7 +44,7 @@ export const AddGroupResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  Headers: z.record(z.array(z.string())),
+  Headers: z.record(z.array(z.string())).default({}),
   Result: z.union([
     models.GroupResponse$inboundSchema,
     models.ErrorResponse$inboundSchema,
@@ -91,51 +55,6 @@ export const AddGroupResponse$inboundSchema: z.ZodType<
     "Result": "result",
   });
 });
-
-/** @internal */
-export type AddGroupResponse$Outbound = {
-  Headers: { [k: string]: Array<string> };
-  Result: models.GroupResponse$Outbound | models.ErrorResponse$Outbound;
-};
-
-/** @internal */
-export const AddGroupResponse$outboundSchema: z.ZodType<
-  AddGroupResponse$Outbound,
-  z.ZodTypeDef,
-  AddGroupResponse
-> = z.object({
-  headers: z.record(z.array(z.string())),
-  result: z.union([
-    models.GroupResponse$outboundSchema,
-    models.ErrorResponse$outboundSchema,
-  ]),
-}).transform((v) => {
-  return remap$(v, {
-    headers: "Headers",
-    result: "Result",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace AddGroupResponse$ {
-  /** @deprecated use `AddGroupResponse$inboundSchema` instead. */
-  export const inboundSchema = AddGroupResponse$inboundSchema;
-  /** @deprecated use `AddGroupResponse$outboundSchema` instead. */
-  export const outboundSchema = AddGroupResponse$outboundSchema;
-  /** @deprecated use `AddGroupResponse$Outbound` instead. */
-  export type Outbound = AddGroupResponse$Outbound;
-}
-
-export function addGroupResponseToJSON(
-  addGroupResponse: AddGroupResponse,
-): string {
-  return JSON.stringify(
-    AddGroupResponse$outboundSchema.parse(addGroupResponse),
-  );
-}
 
 export function addGroupResponseFromJSON(
   jsonString: string,

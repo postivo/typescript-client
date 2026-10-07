@@ -1,5 +1,4 @@
-# ByExtId
-(*addressBook.contacts.byExtId*)
+# AddressBook.Contacts.ByExtId
 
 ## Overview
 

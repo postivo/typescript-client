@@ -4,9 +4,6 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
-import { Result as SafeParseResult } from "../types/fp.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
  * Contact data for an Address Book entry.
@@ -59,31 +56,6 @@ export type Contact = {
 };
 
 /** @internal */
-export const Contact$inboundSchema: z.ZodType<Contact, z.ZodTypeDef, unknown> =
-  z.object({
-    name: z.nullable(z.string()),
-    name2: z.nullable(z.string()).optional(),
-    address: z.nullable(z.string()),
-    home_number: z.nullable(z.string()).optional(),
-    flat_number: z.nullable(z.string()).optional(),
-    post_code: z.nullable(z.string()),
-    city: z.nullable(z.string()),
-    country: z.nullable(z.string().default("PL")),
-    phone_number: z.nullable(z.string()).optional(),
-    ext_id: z.nullable(z.string()).optional(),
-    group_ids: z.nullable(z.array(z.number().int())).optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "home_number": "homeNumber",
-      "flat_number": "flatNumber",
-      "post_code": "postCode",
-      "phone_number": "phoneNumber",
-      "ext_id": "extId",
-      "group_ids": "groupIds",
-    });
-  });
-
-/** @internal */
 export type Contact$Outbound = {
   name: string | null;
   name2?: string | null | undefined;
@@ -126,29 +98,6 @@ export const Contact$outboundSchema: z.ZodType<
   });
 });
 
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Contact$ {
-  /** @deprecated use `Contact$inboundSchema` instead. */
-  export const inboundSchema = Contact$inboundSchema;
-  /** @deprecated use `Contact$outboundSchema` instead. */
-  export const outboundSchema = Contact$outboundSchema;
-  /** @deprecated use `Contact$Outbound` instead. */
-  export type Outbound = Contact$Outbound;
-}
-
 export function contactToJSON(contact: Contact): string {
   return JSON.stringify(Contact$outboundSchema.parse(contact));
-}
-
-export function contactFromJSON(
-  jsonString: string,
-): SafeParseResult<Contact, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Contact$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Contact' from JSON`,
-  );
 }
